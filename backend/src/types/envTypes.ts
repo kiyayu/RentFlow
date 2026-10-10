@@ -25,5 +25,11 @@
   googleClientSecret: string
   googleRedirectUri:  string
 
+  //storage
+  storageDriver?: string
+  cloudinaryCloudName?: string
+  cloudinaryApiKey?: string
+  cloudinaryApiSecret?: string
+
 
  }

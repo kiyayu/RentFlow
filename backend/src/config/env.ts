@@ -1,3 +1,4 @@
+//src/config/env.ts
 import { z } from 'zod';
 import { EnvTypes } from '../types/envTypes.js';
 import path from 'path';
@@ -24,6 +25,10 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID:     z.string().min(1, 'GOOGLE_CLIENT_ID is required'),
   GOOGLE_CLIENT_SECRET: z.string().min(1, 'GOOGLE_CLIENT_SECRET is required'),
   GOOGLE_REDIRECT_URI:  z.string().min(1, 'GOOGLE_REDIRECT_URI is required'),
+   STORAGE_DRIVER: z.enum(['cloudinary', 'fake']).default('fake'),
+  CLOUDINARY_CLOUD_NAME: z.string().optional(),
+  CLOUDINARY_API_KEY: z.string().optional(),
+  CLOUDINARY_API_SECRET: z.string().optional(),
 
 });
 
@@ -55,5 +60,9 @@ export const env: EnvTypes = {
    googleClientId:     parsed.data.GOOGLE_CLIENT_ID,
   googleClientSecret: parsed.data.GOOGLE_CLIENT_SECRET,
   googleRedirectUri:  parsed.data.GOOGLE_REDIRECT_URI,
+  storageDriver: parsed.data.STORAGE_DRIVER,
+  cloudinaryCloudName: parsed.data.CLOUDINARY_CLOUD_NAME,
+  cloudinaryApiKey: parsed.data.CLOUDINARY_API_KEY,
+  cloudinaryApiSecret: parsed.data.CLOUDINARY_API_SECRET,
  
 };

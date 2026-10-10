@@ -1,16 +1,16 @@
 {
-  "name": "sandbox",
+  "name": "kit",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-"scripts": {
-  "build": "tsc",
-  "start": "node dist/server.js",
-  "test": "vitest",
-  "lint": "eslint . --ext .ts",
-  "lint:fix": "eslint . --ext .ts --fix",
-  "format": "prettier --write \"**/*.ts\""
-},
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test": "vitest",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"**/*.ts\""
+  },
   "keywords": [],
   "type": "module",
   "devDependencies": {
@@ -38,6 +38,7 @@
   "dependencies": {
     "argon2": "^0.45.1",
     "bullmq": "^6.3.4",
+    "cloudinary": "^2.11.0",
     "compression": "^1.8.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",

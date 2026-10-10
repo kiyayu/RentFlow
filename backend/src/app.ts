@@ -11,6 +11,7 @@ import { requestLogger } from './common/middlewares/requestLogger.js'
 import authRoutes from './modules/auth/auth.routes.js'
 import userRoutes from './modules/user/user.routes.js'
 import notificationRoutes from './modules/notification/notification.routes.js'
+import uploadRoutes from './modules/upload/upload.routes.js'
 
 const app = express()
 
@@ -39,7 +40,7 @@ app.get('/health', (_req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/notifications', notificationRoutes) 
-
+app.use('/api/uploads', uploadRoutes)
 app.use((_req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' })
 })
