@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { appConfig } from "./nav.config"
 
-export type ShellUser = { name: string; email: string }
+export type ShellUser = { name: string; email: string, avatarUrl?:string }
 
 export function Topbar({
   user,
@@ -31,7 +31,9 @@ export function Topbar({
       <DropdownMenu>
         <DropdownMenuTrigger
           render={
-            <Button variant="ghost" size="icon" aria-label="Account menu" icon={<User />} />
+            <Button variant="ghost" size="icon" aria-label="Account menu" icon={user?.avatarUrl
+         ? <img src={user.avatarUrl} alt="" className="rounded-full size-7" />
+         : <User />} />
           }
         />
         <DropdownMenuContent align="end" className="w-52">

@@ -6,6 +6,7 @@ export type SessionUser = {
   emailVerified: boolean
   role: string
   createdAt: string
+   avatarUrl?: string
 }
 
 export type DeviceSession = {

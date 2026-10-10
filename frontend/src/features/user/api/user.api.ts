@@ -19,4 +19,13 @@ export const userApi = {
   hardDelete: async (): Promise<void> => {
     await api.put('/user/hard-delete')
   },
+  setAvatar: async (fileKey: string): Promise<SessionUser> => {
+    const res = await api.put<{ data: SessionUser }>('/user/avatar', { fileKey })
+    return res.data.data
+  },
+
+  removeAvatar: async (): Promise<SessionUser> => {
+    const res = await api.delete<{ data: SessionUser }>('/user/avatar')
+    return res.data.data
+  },
 }

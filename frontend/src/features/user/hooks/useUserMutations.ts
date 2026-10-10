@@ -34,3 +34,19 @@ export const useDeleteAccount = () =>
     mutationFn: userApi.hardDelete,
     onSuccess: () => clearSession({ returnToCurrentPage: false }),
   })
+
+  export const useSetAvatar = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: userApi.setAvatar,
+    onSuccess: (user) => queryClient.setQueryData(authKeys.session, user),
+  })
+}
+
+export const useRemoveAvatar = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: userApi.removeAvatar,
+    onSuccess: (user) => queryClient.setQueryData(authKeys.session, user),
+  })
+}
