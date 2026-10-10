@@ -1,0 +1,18 @@
+// src/lib/query.client.ts
+import { QueryClient } from '@tanstack/react-query'
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: 60_000,
+      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      retry: false,
+    },
+  },
+})
+
+ 
+//queryClient.setQueryData(['session'], {name:'jaso', email:'janzo@gmail.com', role:'customer', emailVerified:true,})
