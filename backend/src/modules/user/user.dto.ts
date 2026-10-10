@@ -2,7 +2,8 @@
 import  {z} from 'zod'
 import  {userSchema , updateUserSchema, idSchema, changeEmailSchema, listUsersQuerySchema} from './user.validation.js'
 import { UserRole } from '../../types/authTypes.js'
-
+import { setAvatarSchema } from './user.validation.js'
+export type SetAvatarDTO = z.infer<typeof setAvatarSchema>['body']
 
 export type CreateUserDTO = z.infer<typeof userSchema>['body']
 export type CreateIDDTO = z.infer<typeof idSchema>['params']
@@ -17,4 +18,5 @@ export interface UserResponseDTO {
     emailVerified:  boolean
     role:UserRole
     createdAt:Date
+     avatarUrl?: string
 }

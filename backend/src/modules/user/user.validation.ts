@@ -1,5 +1,12 @@
 //src/modules/user/user.validation.ts
 import { z } from 'zod';
+import { FILE_KEY_PATTERN } from '../upload/upload.rules.js'
+
+export const setAvatarSchema = z.object({
+  body: z.object({
+    fileKey: z.string().regex(FILE_KEY_PATTERN, 'Invalid file key'),
+  }).strict(),
+})
 
 export const passwordSchema = z
   .string()

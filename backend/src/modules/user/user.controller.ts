@@ -1,7 +1,7 @@
  import { Request, Response } from "express";
   import { sendSuccess } from "../../common/handlers/responseHandler.js";
  import { userService } from "./user.service.js";
-import { CreateChangeEmailDTO, CreateListUserDTO, CreateUpdateDTO } from "./user.dto.js";
+import { CreateChangeEmailDTO, CreateListUserDTO, CreateUpdateDTO , SetAvatarDTO} from "./user.dto.js";
 import { DEFAULT_PAGE_SIZE } from "./user.constants.js";
   
  export const userController = {
@@ -33,7 +33,7 @@ import { DEFAULT_PAGE_SIZE } from "./user.constants.js";
         const message = await userService.hardDelete(userId)
         return sendSuccess({res, message:message})
     },
-  // user.controller.ts
+  
 listUser: async (req: Request, res: Response) => {
   const { page, limit } = req.data?.query as CreateListUserDTO
   const currentPage = Number(page) || 1          // missing page can no longer become NaN
@@ -47,4 +47,14 @@ listUser: async (req: Request, res: Response) => {
     pagination: { total, totalPage: Math.ceil(total / pageSize), currentPage },
   })
 },
+  setAvatar:  async (req: Request, res: Response) => {
+    const { fileKey } = req.data?.body as SetAvatarDTO
+    const data = await userService.setAvatar(req.user!.id, fileKey)
+    return sendSuccess({ res, data, message: 'Avatar updated' })
+  },
+
+  removeAvatar: async (req: Request, res: Response) => {
+    const data = await userService.removeAvatar(req.user!.id)
+    return sendSuccess({ res, data, message: 'Avatar removed' })
+  },
  }

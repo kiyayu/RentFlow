@@ -19,8 +19,9 @@ interface IUser extends Document {
     isActive:boolean
     createdAt:Date
     updatedAt:Date
+    avatarKey?: string
+    avatarUrl?: string
 }
-
 interface ITokenFamily extends Document {
     userId: Types.ObjectId;
     currentTokenHash?: string;
@@ -100,7 +101,9 @@ const userSchema = new mongoose.Schema({
     isActive: {
         type:Boolean,
         default:true
-    }
+    },
+    avatarKey: { type: String, select: false },
+    avatarUrl: { type: String },
 },
 {
     timestamps:true

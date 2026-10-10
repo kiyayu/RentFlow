@@ -6,6 +6,10 @@ import {  issueOtp } from '../auth/auth.helpers.js'
 import { UserResponseDTO } from './user.dto.js'
 import { DEFAULT_PAGE_SIZE } from './user.constants.js'
 import { notificationService } from '../notification/notification.service.js'
+import { uploadService } from '../upload/upload.service.js'
+import { storage } from '../upload/storage/index.js'
+import { logger } from '../../common/utils/logger.js'
+
 export const mapResponse = (user: any): UserResponseDTO => ({
   id: user._id.toString(),
   name: user.name,
@@ -13,6 +17,7 @@ export const mapResponse = (user: any): UserResponseDTO => ({
   emailVerified: user.emailVerified,
   role: user.role,
   createdAt: user.createdAt,
+    avatarUrl: user.avatarUrl ?? undefined,
 })
 
 export const userService = {
@@ -84,5 +89,40 @@ await notificationService.notify({
       User.countDocuments({}),
     ])
     return { users: users.map(mapResponse), total }
+  },
+  setAvatar: async (userId: string, fileKey: string): Promise<UserResponseDTO> => {
+    // validates ownership, purpose, real size and format; deletes the file if it breaks a rule
+    const { fileUrl } = await uploadService.confirm(userId, { purpose: 'avatar', fileKey })
+
+    const user = await User.findById(userId).select('+avatarKey')
+    if (!user) throw ApiError.notFound('User not found')
+
+    const previousKey = user.avatarKey
+    user.avatarKey = fileKey
+    user.avatarUrl = fileUrl
+    await user.save()
+
+    // only after the new avatar is saved
+    if (previousKey && previousKey !== fileKey) {
+      storage.delete(previousKey).catch((err) =>
+        logger.warn({ err, previousKey }, 'old avatar cleanup failed'))
+    }
+    return mapResponse(user)
+  },
+
+  removeAvatar: async (userId: string): Promise<UserResponseDTO> => {
+    const user = await User.findById(userId).select('+avatarKey')
+    if (!user) throw ApiError.notFound('User not found')
+
+    const key = user.avatarKey
+    user.avatarKey = undefined
+    user.avatarUrl = undefined
+    await user.save()
+
+    if (key) {
+      storage.delete(key).catch((err) =>
+        logger.warn({ err, key }, 'avatar cleanup failed'))
+    }
+    return mapResponse(user)
   },
 }
