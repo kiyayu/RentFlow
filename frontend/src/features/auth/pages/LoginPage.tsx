@@ -6,15 +6,15 @@ import { AuthSwitch } from '../components/AuthSwitch'
 import { FormError } from '../components/FormError'
 import { GoogleButton } from '../components/GoogleButton'
 import { LoginForm } from '../components/LoginForm'
+import { useTranslation } from '@/lib/i18n'
 
 export default function LoginPage() {
   const [searchParams] = useSearchParams()
   const googleFailed = searchParams.get('error') === 'google'
-
+  const { t } = useTranslation()
   return (
     <>
-      <AuthHeading title="Welcome back" description="Log in to your account." />
-      <FormError message={googleFailed ? 'Google sign-in failed. Please try again.' : undefined} />
+<AuthHeading title={t('auth.login.title')} description={t('auth.login.description')} />      <FormError message={googleFailed ? 'Google sign-in failed. Please try again.' : undefined} />
       <LoginForm />
       <GoogleButton />
       <AuthSwitch text="No account yet?" label="Sign up" to={paths.register} />

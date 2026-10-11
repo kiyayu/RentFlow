@@ -11,6 +11,7 @@ import { useLogin } from '../hooks/useLogin'
 import { getSafeRedirect } from '../redirect'
 import { loginSchema, type LoginPayload } from '../schemas/auth.schema'
 import { FormError } from './FormError'
+ 
 
 // Matches the backend message exactly. If the wording changes, only this line breaks.
 const UNVERIFIED_MESSAGE = 'Please verify your email before logging in'
@@ -19,6 +20,7 @@ export function LoginForm() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { mutate, isPending, error } = useLogin()
+  
 
   const {
     register,

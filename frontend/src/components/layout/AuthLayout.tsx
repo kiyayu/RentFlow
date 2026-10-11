@@ -6,6 +6,12 @@ import { site, legalLinks } from "@/config/site"
 export function AuthLayout() {
   return (
     <div className="flex flex-col min-h-dvh bg-background">
+            <a
+  href="#main"
+  className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:px-3 focus:py-2 focus:bg-card focus:text-foreground focus:border focus:border-border focus:rounded-lg"
+>
+  Skip to content
+</a>
       <header className="flex items-center h-14 px-4 md:px-6">
         <Link to={paths.home} className="text-base font-semibold text-foreground">
           {site.name}
@@ -14,6 +20,7 @@ export function AuthLayout() {
 
       <main className="flex items-center justify-center flex-1 p-4">
         <div className="w-full max-w-sm p-6 space-y-6 bg-card border border-border rounded-xl shadow-sm">
+           <main id="main" tabIndex={-1} className="flex-1"></main>
           <Outlet />
         </div>
       </main>

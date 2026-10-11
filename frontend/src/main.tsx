@@ -5,7 +5,7 @@ import './index.css'
 import App from './App.tsx'
 import { registerSessionExpiry, registerBfcacheGuard } from '@/features/auth'
 import { startThemeSync } from '@/features/preferences'
-
+import '@/lib/i18n'
 startThemeSync()
 registerBfcacheGuard()
 registerSessionExpiry()

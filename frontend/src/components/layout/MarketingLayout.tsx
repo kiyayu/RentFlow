@@ -21,6 +21,12 @@ function MarketingNavbar() {
 
   return (
     <header className="sticky top-0 z-40 bg-card border-b border-border">
+            <a
+  href="#main"
+  className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:px-3 focus:py-2 focus:bg-card focus:text-foreground focus:border focus:border-border focus:rounded-lg"
+>
+  Skip to content
+</a>
       <div className="flex items-center gap-2 h-14 w-full max-w-7xl mx-auto px-4 md:px-6">
         <Button
           variant="ghost"
@@ -70,6 +76,7 @@ function MarketingNavbar() {
                 {label}
               </NavLink>
             ))}
+             <main id="main" tabIndex={-1} className="flex-1"></main>
             <NavLink to={cta.login.to} className={linkClass} onClick={() => setOpen(false)}>
               {cta.login.label}
             </NavLink>

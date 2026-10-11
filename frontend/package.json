@@ -11,7 +11,8 @@
     "check:colors": "! grep -rEn \"(bg|text|border|ring|from|to|via)-(stone|rose|amber|red|green|cyan|neutral|gray|slate|zinc)-[0-9]+|bg-white|text-black\" src --include=*.tsx --include=*.ts",
     "check": "tsc --noEmit -p tsconfig.app.json && npm run lint && npm run check:colors && npm test",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -25,11 +26,13 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.4.0",
+    "i18next": "^26.4.3",
     "lucide-react": "^1.48.0",
     "react": "^19.2.8",
     "react-day-picker": "^10.0.2",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.89.0",
+    "react-i18next": "^17.0.16",
     "react-router-dom": "^7.18.4",
     "sonner": "^2.0.8",
     "tailwind-merge": "^3.7.0",
