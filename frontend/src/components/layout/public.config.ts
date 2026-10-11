@@ -1,21 +1,22 @@
 //src/components/layout/public.config.ts
-import { paths } from "@/config/paths"
-import { legalLinks } from "@/config/site"
+import type { ParseKeys } from 'i18next'
+import { paths } from '@/config/paths'
+import { legalLinks } from '@/config/site'
 
-export type PublicLink = { label: string; to: string }
+type Key = ParseKeys<'layout'>
+export type PublicLink = { labelKey: Key; to: string }
 
 export const publicConfig = {
   nav: [
-    { label: "Home", to: paths.home },
-    { label: "Contact", to: paths.contact },
-    {label: "Price", to:paths.price}
+    { labelKey: 'nav.home', to: paths.home },
+    { labelKey: 'nav.contact', to: paths.contact },
   ] satisfies PublicLink[],
   cta: {
-    login: { label: "Log in", to: paths.login },
-    register: { label: "Get started", to: paths.register },
+    login: { labelKey: 'marketing.logIn' as Key, to: paths.login },
+    register: { labelKey: 'marketing.getStarted' as Key, to: paths.register },
   },
   footerColumns: [
-    { title: "Company", links: [{ label: "Contact", to: paths.contact }] },
-    { title: "Legal", links: legalLinks },
-  ] satisfies { title: string; links: PublicLink[] }[],
+    { titleKey: 'footer.company' as Key, links: [{ labelKey: 'nav.contact' as Key, to: paths.contact }] },
+    { titleKey: 'footer.legal' as Key, links: legalLinks },
+  ],
 }

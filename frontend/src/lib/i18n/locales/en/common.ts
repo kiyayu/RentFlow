@@ -11,5 +11,9 @@ export const common = {
   status: {
     loading: 'Loading...',
     saving: 'Saving...',
+    working: 'Working...',
+  },
+  confirm: {
+    typeToConfirm: 'Type "{{text}}" to confirm',
   },
 } as const
