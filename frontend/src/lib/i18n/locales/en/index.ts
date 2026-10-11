@@ -4,6 +4,8 @@ import { validation } from './validation'
 import { errors } from './errors'
 import { auth } from './auth'
 import { layout } from './layout'
+import { settings } from './settings'
+import { notifications } from './notifications'
 
 // A new namespace = one file here + one line below. Types follow automatically.
-export const en = { common, validation, errors, auth, layout } as const
+export const en = { common, validation, errors, auth, layout, settings, notifications } as const

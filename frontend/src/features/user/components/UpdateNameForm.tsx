@@ -7,11 +7,14 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { getErrorMessage } from '@/lib/errors'
+import { useTranslation } from '@/lib/i18n'
+import { translateMessage } from '@/lib/i18n/translate'
 import { sessionQueryOptions } from '@/features/auth'
 import { useUpdateName } from '../hooks/useUserMutations'
 import { updateNameSchema, type UpdateNameForm as Values } from '../schemas/user.schema'
 
 export function UpdateNameForm() {
+  const { t } = useTranslation('settings')
   const { data: user } = useQuery(sessionQueryOptions)
   const { mutate, isPending, error } = useUpdateName()
 
@@ -31,7 +34,7 @@ export function UpdateNameForm() {
   }, [user, reset])
 
   const onSubmit = (data: Values) =>
-    mutate(data, { onSuccess: () => toast.success('Name updated') })
+    mutate(data, { onSuccess: () => toast.success(t('profile.saved')) })
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -40,9 +43,10 @@ export function UpdateNameForm() {
           {getErrorMessage(error)}
         </p>
       )}
-      <Input label="Name" autoComplete="name" {...register('name')} error={errors.name?.message} />
+      <Input label={t('profile.name')} autoComplete="name" {...register('name')}
+        error={translateMessage(t, errors.name?.message)} />
       <Button type="submit" disabled={isPending || !isDirty}>
-        {isPending ? 'Saving...' : 'Save name'}
+        {isPending ? t('status.saving', { ns: 'common' }) : t('profile.save')}
       </Button>
     </form>
   )

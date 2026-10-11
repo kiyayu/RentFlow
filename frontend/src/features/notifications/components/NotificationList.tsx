@@ -4,10 +4,12 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getErrorMessage } from '@/lib/errors'
+import { useTranslation } from '@/lib/i18n'
 import { useMarkAllRead, useMarkRead, useNotificationList, useRemoveNotification } from '../hooks/useNotifications'
 import { NotificationItem } from './NotificationItem'
 
 export function NotificationList() {
+  const { t } = useTranslation('notifications')
   const [page, setPage] = useState(1)
   const { data, isPending, isError, isPlaceholderData, refetch } = useNotificationList({ page, limit: 10 })
   const markRead = useMarkRead()
@@ -26,14 +28,16 @@ export function NotificationList() {
   if (isError && !data) {
     return (
       <div className="space-y-3">
-        <p className="text-sm text-destructive">Could not load notifications.</p>
-        <Button variant="outline" size="sm" onClick={() => refetch()}>Try again</Button>
+        <p className="text-sm text-destructive">{t('loadFailed')}</p>
+        <Button variant="outline" size="sm" onClick={() => refetch()}>
+          {t('actions.tryAgain', { ns: 'common' })}
+        </Button>
       </div>
     )
   }
 
   if (!data?.items.length) {
-    return <p className="text-sm text-muted-foreground">You have no notifications.</p>
+    return <p className="text-sm text-muted-foreground">{t('empty')}</p>
   }
 
   const { items, pagination } = data
@@ -44,7 +48,7 @@ export function NotificationList() {
       <div className="flex justify-end">
         <Button variant="outline" size="sm" disabled={!hasUnread || markAll.isPending}
           onClick={() => markAll.mutate(undefined, { onError: (e) => toast.error(getErrorMessage(e)) })}>
-          Mark all as read
+          {t('markAllReadLong')}
         </Button>
       </div>
 
@@ -58,9 +62,15 @@ export function NotificationList() {
 
       {pagination.totalPage > 1 && (
         <div className="flex items-center justify-between">
-          <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>Previous</Button>
-          <span className="text-xs text-muted-foreground">Page {pagination.currentPage} of {pagination.totalPage}</span>
-          <Button variant="outline" size="sm" disabled={page >= pagination.totalPage} onClick={() => setPage((p) => p + 1)}>Next</Button>
+          <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+            {t('previous')}
+          </Button>
+          <span className="text-xs text-muted-foreground">
+            {t('pageOf', { current: pagination.currentPage, total: pagination.totalPage })}
+          </span>
+          <Button variant="outline" size="sm" disabled={page >= pagination.totalPage} onClick={() => setPage((p) => p + 1)}>
+            {t('next')}
+          </Button>
         </div>
       )}
     </div>

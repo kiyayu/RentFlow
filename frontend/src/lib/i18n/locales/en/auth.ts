@@ -71,4 +71,8 @@ export const auth = {
     submitting: 'Saving...',
     success: 'Password updated',
   },
+    google: {
+    or: 'or',
+    continue: 'Continue with Google',
+  },
 } as const

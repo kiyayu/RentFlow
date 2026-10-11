@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { FileDropzone } from '@/components/ui/file-dropzone'
 import { getErrorMessage } from '@/lib/errors'
+import { useTranslation } from '@/lib/i18n'
 import { sessionQueryOptions } from '@/features/auth'
 import { useUpload } from '@/features/uploads'
 import { useRemoveAvatar, useSetAvatar } from '../hooks/useUserMutations'
@@ -13,6 +14,7 @@ import { useRemoveAvatar, useSetAvatar } from '../hooks/useUserMutations'
 const AVATAR_RULE = { types: ['image/png', 'image/jpeg', 'image/webp'], maxBytes: 2 * 1024 * 1024 }
 
 export function AvatarUploader() {
+  const { t } = useTranslation('settings')
   const { data: user } = useQuery(sessionQueryOptions)
   const upload = useUpload('avatar')
   const setAvatar = useSetAvatar()
@@ -24,10 +26,10 @@ export function AvatarUploader() {
     upload.mutate(file, {
       onSuccess: (fileKey) =>
         setAvatar.mutate(fileKey, {
-          onSuccess: () => toast.success('Avatar updated'),
+          onSuccess: () => toast.success(t('avatar.updated')),
           onError: (e) => toast.error(getErrorMessage(e)),
         }),
-      onError: (e) => toast.error(getErrorMessage(e, 'Upload failed. Please try again.')),
+      onError: (e) => toast.error(getErrorMessage(e, t('avatar.uploadFailed'))),
     })
 
   return (
@@ -40,16 +42,16 @@ export function AvatarUploader() {
         {user?.avatarUrl && (
           <Button variant="outline" size="sm" disabled={busy}
             onClick={() => removeAvatar.mutate(undefined, {
-              onSuccess: () => toast.success('Avatar removed'),
+              onSuccess: () => toast.success(t('avatar.removed')),
               onError: (e) => toast.error(getErrorMessage(e)),
             })}>
-            Remove
+            {t('avatar.remove')}
           </Button>
         )}
       </div>
 
       <FileDropzone rule={AVATAR_RULE} onFile={onFile} disabled={busy}
-        label={busy ? 'Uploading...' : 'Drop an image here or click to choose'} />
+        label={busy ? t('avatar.uploading') : t('avatar.dropLabel')} />
 
       {upload.isPending && (
         <div className="h-2 overflow-hidden rounded-full bg-muted" role="progressbar"

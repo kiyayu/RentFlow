@@ -1,6 +1,8 @@
 //src/features/notifications/components/NotificationItem.tsx
 import { ShieldAlert, KeyRound, Mail, Trash2, type LucideIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { formatDateTime } from '@/lib/format'
+import { useTranslation } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 import type { AppNotification, NotificationType } from '../types/notification.types'
 
@@ -9,9 +11,6 @@ const icons: Record<NotificationType, LucideIcon> = {
   email_changed: Mail,
   new_sign_in: ShieldAlert,
 }
-
-const formatDate = (iso: string) =>
-  new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(iso))
 
 export function NotificationItem({
   notification: n,
@@ -24,6 +23,7 @@ export function NotificationItem({
   onRemove?: (id: string) => void
   compact?: boolean
 }) {
+  const { t } = useTranslation('notifications')
   const Icon = icons[n.type] ?? ShieldAlert
 
   return (
@@ -36,12 +36,13 @@ export function NotificationItem({
         className="flex-1 min-w-0 space-y-0.5 text-left"
         onClick={() => !n.read && onRead(n.id)}
       >
+        {/* title and message are stored by the backend (English) */}
         <p className={cn('text-sm text-foreground', !n.read && 'font-medium')}>{n.title}</p>
         <p className={cn('text-xs text-muted-foreground', compact && 'line-clamp-2')}>{n.message}</p>
-        <p className="text-xs text-muted-foreground">{formatDate(n.createdAt)}</p>
+        <p className="text-xs text-muted-foreground">{formatDateTime(n.createdAt)}</p>
       </button>
       {onRemove && (
-        <Button variant="ghost" size="icon" className="size-8" aria-label="Delete notification"
+        <Button variant="ghost" size="icon" className="size-8" aria-label={t('delete')}
           onClick={() => onRemove(n.id)} icon={<Trash2 />} />
       )}
     </li>

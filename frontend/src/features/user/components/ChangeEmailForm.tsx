@@ -6,11 +6,14 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { getErrorMessage } from '@/lib/errors'
+import { useTranslation } from '@/lib/i18n'
+import { translateMessage } from '@/lib/i18n/translate'
 import { sessionQueryOptions } from '@/features/auth'
 import { useChangeEmail } from '../hooks/useUserMutations'
 import { changeEmailSchema, type ChangeEmailForm as Values } from '../schemas/user.schema'
 
 export function ChangeEmailForm() {
+  const { t } = useTranslation('settings')
   const { data: user } = useQuery(sessionQueryOptions)
   const { mutate, isPending, error } = useChangeEmail()
 
@@ -24,7 +27,7 @@ export function ChangeEmailForm() {
   const onSubmit = (data: Values) =>
     mutate(data, {
       onSuccess: () => {
-        toast.success('Email updated')
+        toast.success(t('account.emailUpdated'))
         reset()
       },
     })
@@ -37,12 +40,12 @@ export function ChangeEmailForm() {
         </p>
       )}
       <p className="text-sm text-muted-foreground">
-        Current email: <span className="font-medium text-foreground">{user?.email}</span>
+        {t('account.currentEmail')} <span className="font-medium text-foreground">{user?.email}</span>
       </p>
-      <Input label="New email" type="email" autoComplete="email"
-        {...register('newEmail')} error={errors.newEmail?.message} />
+      <Input label={t('account.newEmail')} type="email" autoComplete="email"
+        {...register('newEmail')} error={translateMessage(t, errors.newEmail?.message)} />
       <Button type="submit" disabled={isPending}>
-        {isPending ? 'Saving...' : 'Change email'}
+        {isPending ? t('status.saving', { ns: 'common' }) : t('account.changeEmail')}
       </Button>
     </form>
   )

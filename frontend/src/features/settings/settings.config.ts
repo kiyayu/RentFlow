@@ -1,37 +1,35 @@
 //src/features/settings/settings.config.ts
-import { User, SlidersHorizontal, Bell, KeyRound, ShieldCheck, Lock, type LucideIcon } from "lucide-react"
-import { paths } from "@/config/paths"
+import { User, SlidersHorizontal, Bell, KeyRound, ShieldCheck, Lock, type LucideIcon } from 'lucide-react'
+import type { ParseKeys } from 'i18next'
+import { paths } from '@/config/paths'
 
-export type SettingsItem = { label: string; to: string; icon: LucideIcon; roles?: string[] }
-export type SettingsGroup = { label: string; items: SettingsItem[] }
+type Key = ParseKeys<'settings'>
+export type SettingsItem = { labelKey: Key; to: string; icon: LucideIcon; roles?: string[] }
+export type SettingsGroup = { labelKey: Key; items: SettingsItem[] }
 
-export const settingsConfig:{
-  title: string
-  description: string
+export const settingsConfig: {
   defaultPath: string
   groups: SettingsGroup[]
-}  = {
-  title: "Settings",
-  description: "Manage your profile, preferences and security.",
+} = {
   defaultPath: paths.settings.profile,
   groups: [
     {
-      label: "Personal",
+      labelKey: 'groups.personal',
       items: [
-        { label: "Profile", to: paths.settings.profile, icon: User },
-        { label: "Preferences", to: paths.settings.preferences, icon: SlidersHorizontal },
-        { label: "Notifications", to: paths.settings.notifications, icon: Bell },
+        { labelKey: 'nav.profile', to: paths.settings.profile, icon: User },
+        { labelKey: 'nav.preferences', to: paths.settings.preferences, icon: SlidersHorizontal },
+        { labelKey: 'nav.notifications', to: paths.settings.notifications, icon: Bell },
       ],
     },
     {
-      label: "Account",
+      labelKey: 'groups.account',
       items: [
-        { label: "Account", to: paths.settings.account, icon: KeyRound },
-        { label: "Security", to: paths.settings.security, icon: ShieldCheck },
-        { label: "Privacy & data", to: paths.settings.privacy, icon: Lock },
+        { labelKey: 'nav.account', to: paths.settings.account, icon: KeyRound },
+        { labelKey: 'nav.security', to: paths.settings.security, icon: ShieldCheck },
+        { labelKey: 'nav.privacy', to: paths.settings.privacy, icon: Lock },
       ],
     },
-  ]  
+  ],
 }
 
 export const visibleGroups = (role?: string): SettingsGroup[] =>

@@ -2,11 +2,11 @@
 import { z } from 'zod'
 
 export const updateNameSchema = z.object({
-  name: z.string().trim().min(3, 'Name must be at least 3 characters').max(100, 'Name is too long'),
+  name: z.string().trim().min(3, 'validation:nameMin').max(100, 'validation:nameMax'),
 })
 
 export const changeEmailSchema = z.object({
-  newEmail: z.string().trim().min(1, 'Email is required').email('Enter a valid email'),
+  newEmail: z.string().trim().min(1, 'validation:emailRequired').email('validation:emailInvalid'),
 })
 
 export type UpdateNameForm = z.infer<typeof updateNameSchema>
