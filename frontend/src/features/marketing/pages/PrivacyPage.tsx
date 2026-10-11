@@ -1,7 +1,6 @@
 //src/features/marketing/pages/PrivacyPage.tsx
-import { LegalDocument } from "../components/LegalDocument"
-import { privacySections } from "../legal.content"
+import { LegalDocument } from '../components/LegalDocument'
 
 export default function PrivacyPage() {
-  return <LegalDocument title="Privacy Policy" sections={privacySections} />
+  return <LegalDocument doc="privacy" />
 }

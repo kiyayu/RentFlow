@@ -1,15 +1,17 @@
-// src/components/layout/DocumentTitle.tsx
-import { useEffect } from "react"
-import { useMatches } from "react-router-dom"
-import { site } from "@/config/site"
+//src/components/layout/DocumentTitle.tsx
+import { useEffect } from 'react'
+import { useMatches } from 'react-router-dom'
+import { site } from '@/config/site'
+import { useTranslation } from '@/lib/i18n'
 
 export function DocumentTitle() {
-  const matches = useMatches() as { handle?: { title?: string } }[]
-  const title = [...matches].reverse().find((m) => m.handle?.title)?.handle?.title
+  const { t } = useTranslation('layout')
+  const matches = useMatches() as { handle?: { titleKey?: string } }[]
+  const key = [...matches].reverse().find((m) => m.handle?.titleKey)?.handle?.titleKey
 
   useEffect(() => {
-    document.title = title ? `${title} · ${site.name}` : site.name
-  }, [title])
+    document.title = key ? `${t(key as never)} · ${site.name}` : site.name
+  }, [key, t])
 
   return null
 }

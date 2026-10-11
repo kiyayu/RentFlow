@@ -17,7 +17,7 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
   )
 
 function MarketingNavbar() {
-  const { t } = useTranslation('layout')
+  const { t } = useTranslation(['layout', 'marketing'])
   const [open, setOpen] = useState(false)
   const { nav, cta } = publicConfig
 
@@ -92,7 +92,7 @@ function MarketingFooter() {
           <div className="col-span-2 space-y-2">
             <p className="text-base font-semibold text-foreground">{site.name}</p>
             {/* tagline is marketing wording: it moves to a locale file in the marketing step */}
-            <p className="max-w-xs text-sm text-muted-foreground">{site.tagline}</p>
+            <p className="max-w-xs text-sm text-muted-foreground">{t('marketing:tagline')}</p>
           </div>
           {publicConfig.footerColumns.map((column) => (
             <div key={column.titleKey} className="space-y-3">

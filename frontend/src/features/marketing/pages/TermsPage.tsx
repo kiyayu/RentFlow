@@ -1,7 +1,6 @@
 //src/features/marketing/pages/TermsPage.tsx
-import { LegalDocument } from "../components/LegalDocument"
-import { termsSections } from "../legal.content"
+import { LegalDocument } from '../components/LegalDocument'
 
 export default function TermsPage() {
-  return <LegalDocument title="Terms of Service" sections={termsSections} />
+  return <LegalDocument doc="terms" />
 }

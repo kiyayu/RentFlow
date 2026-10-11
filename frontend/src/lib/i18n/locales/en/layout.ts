@@ -34,4 +34,12 @@ export const layout = {
     logIn: 'Log in',
     getStarted: 'Get started',
   },
+    titles: {
+    contact: 'Contact', terms: 'Terms of Service', privacy: 'Privacy Policy',
+    login: 'Log in', register: 'Create account', verifyEmail: 'Verify email',
+    forgotPassword: 'Forgot password', resetPassword: 'Reset password',
+    dashboard: 'Dashboard', notes: 'Notes', profile: 'Profile',
+    preferences: 'Preferences', notifications: 'Notifications',
+    account: 'Account', security: 'Security', privacyData: 'Privacy & data',
+  },
 } as const
