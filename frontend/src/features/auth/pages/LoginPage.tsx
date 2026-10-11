@@ -1,23 +1,25 @@
 //src/features/auth/pages/LoginPage.tsx
 import { useSearchParams } from 'react-router-dom'
 import { paths } from '@/config/paths'
+import { useTranslation } from '@/lib/i18n'
 import { AuthHeading } from '../components/AuthHeading'
 import { AuthSwitch } from '../components/AuthSwitch'
 import { FormError } from '../components/FormError'
 import { GoogleButton } from '../components/GoogleButton'
 import { LoginForm } from '../components/LoginForm'
-import { useTranslation } from '@/lib/i18n'
 
 export default function LoginPage() {
+  const { t } = useTranslation('auth')
   const [searchParams] = useSearchParams()
   const googleFailed = searchParams.get('error') === 'google'
-  const { t } = useTranslation()
+
   return (
     <>
-<AuthHeading title={t('auth.login.title')} description={t('auth.login.description')} />      <FormError message={googleFailed ? 'Google sign-in failed. Please try again.' : undefined} />
+      <AuthHeading title={t('login.title')} description={t('login.description')} />
+      <FormError message={googleFailed ? t('login.googleFailed') : undefined} />
       <LoginForm />
       <GoogleButton />
-      <AuthSwitch text="No account yet?" label="Sign up" to={paths.register} />
+      <AuthSwitch text={t('login.noAccount')} label={t('login.signUp')} to={paths.register} />
     </>
   )
 }

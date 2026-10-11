@@ -1,8 +1,7 @@
 //src/features/auth/components/PasswordHint.tsx
+import { useTranslation } from '@/lib/i18n'
+
 export function PasswordHint() {
-  return (
-    <p className="text-xs text-muted-foreground">
-      At least 8 characters, with one uppercase letter and one number.
-    </p>
-  )
+  const { t } = useTranslation('auth')
+  return <p className="text-xs text-muted-foreground">{t('register.passwordHint')}</p>
 }

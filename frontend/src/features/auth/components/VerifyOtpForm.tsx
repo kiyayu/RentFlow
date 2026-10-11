@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { paths } from '@/config/paths'
 import { getErrorMessage } from '@/lib/errors'
+import { useTranslation } from '@/lib/i18n'
+import { translateMessage } from '@/lib/i18n/translate'
 import { useResendOtp, useVerifyOtp } from '../hooks/useAuthMutations'
 import { verifyOtpSchema, type VerifyOtpForm as VerifyOtpValues } from '../schemas/auth.schema'
 import { FormError } from './FormError'
@@ -15,6 +17,7 @@ import { FormError } from './FormError'
 const RESEND_SECONDS = 30
 
 export function VerifyOtpForm({ email }: { email: string }) {
+  const { t } = useTranslation('auth')
   const navigate = useNavigate()
   const verify = useVerifyOtp()
   const resend = useResendOtp()
@@ -37,7 +40,7 @@ export function VerifyOtpForm({ email }: { email: string }) {
       { email, otp },
       {
         onSuccess: () => {
-          toast.success('Email verified. You can log in now.')
+          toast.success(t('verify.success'))
           navigate(paths.login, { replace: true })
         },
       }
@@ -48,7 +51,7 @@ export function VerifyOtpForm({ email }: { email: string }) {
       { email },
       {
         onSuccess: () => {
-          toast.success('A new code was sent.')
+          toast.success(t('verify.resent'))
           setCooldown(RESEND_SECONDS)
         },
         onError: (error) => toast.error(getErrorMessage(error)),
@@ -59,17 +62,17 @@ export function VerifyOtpForm({ email }: { email: string }) {
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
       <FormError message={verify.error ? getErrorMessage(verify.error) : undefined} />
 
-      <Input label="Verification code" inputMode="numeric" autoComplete="one-time-code"
+      <Input label={t('verify.code')} inputMode="numeric" autoComplete="one-time-code"
         maxLength={6} placeholder="123456"
-        {...register('otp')} error={errors.otp?.message} />
+        {...register('otp')} error={translateMessage(t, errors.otp?.message)} />
 
       <Button type="submit" className="w-full" disabled={verify.isPending}>
-        {verify.isPending ? 'Verifying...' : 'Verify email'}
+        {verify.isPending ? t('verify.submitting') : t('verify.submit')}
       </Button>
 
       <Button type="button" variant="ghost" className="w-full"
         disabled={resend.isPending || cooldown > 0} onClick={onResend}>
-        {cooldown > 0 ? `Resend code in ${cooldown}s` : 'Resend code'}
+        {cooldown > 0 ? t('verify.resendIn', { seconds: cooldown }) : t('verify.resend')}
       </Button>
     </form>
   )

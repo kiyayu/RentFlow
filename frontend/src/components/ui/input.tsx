@@ -42,7 +42,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, variant, inputSize, label, icon, type = "text", error, id, ...props }, ref) => {
     const generatedId = React.useId()
     const inputId = id ?? generatedId
-
+   const errorId = `${inputId}-error`
     const [currentType, setCurrentType] = React.useState(type)
 
     const togglePasswordVisibility = () => {
@@ -72,6 +72,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             type={currentType}
             aria-invalid={!!error}
+            aria-describedby={error ? errorId : undefined}
             className={cn(
               inputVariants({ variant, inputSize, className }),
               icon && "pl-10",
@@ -97,7 +98,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
 
-        {error && <p className="text-xs font-medium text-destructive">{error}</p>}
+        {error &&<p id={errorId} className="text-xs font-medium text-destructive">{error}</p>}
       </div>
     )
   }

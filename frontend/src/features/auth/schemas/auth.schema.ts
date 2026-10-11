@@ -1,29 +1,34 @@
 //src/features/auth/schemas/auth.schema.ts
 import { z } from 'zod'
 
-const email = z.string().trim().min(1, 'Email is required').email('Enter a valid email')
+// Every message below is a translation key (namespace "validation"),
+// translated by the form with translateMessage(). Keep in sync with the backend rules.
+const email = z
+  .string()
+  .trim()
+  .min(1, 'validation:emailRequired')
+  .email('validation:emailInvalid')
 
-// Mirrors passwordSchema in the backend. Keep the two in sync.
 export const passwordRules = z
   .string()
-  .min(8, 'Use at least 8 characters')
-  .max(72, 'Use at most 72 characters')
-  .regex(/[A-Z]/, 'Include at least one uppercase letter')
-  .regex(/[0-9]/, 'Include at least one number')
+  .min(8, 'validation:passwordMin')
+  .max(72, 'validation:passwordMax')
+  .regex(/[A-Z]/, 'validation:passwordUppercase')
+  .regex(/[0-9]/, 'validation:passwordNumber')
 
 export const loginSchema = z.object({
   email,
-  password: z.string().min(1, 'Password is required'),
+  password: z.string().min(1, 'validation:passwordRequired'),
 })
 
 export const registerSchema = z.object({
-  name: z.string().trim().min(3, 'Name must be at least 3 characters'),
+  name: z.string().trim().min(3, 'validation:nameMin'),
   email,
   password: passwordRules,
 })
 
 export const verifyOtpSchema = z.object({
-  otp: z.string().regex(/^\d{6}$/, 'Enter the 6-digit code'),
+  otp: z.string().regex(/^\d{6}$/, 'validation:otpFormat'),
 })
 
 export const forgotPasswordSchema = z.object({ email })
@@ -34,17 +39,17 @@ const confirmMatches = <T extends { newPassword: string; confirmPassword: string
 export const resetPasswordSchema = z
   .object({
     newPassword: passwordRules,
-    confirmPassword: z.string().min(1, 'Confirm your password'),
+    confirmPassword: z.string().min(1, 'validation:confirmRequired'),
   })
-  .refine(confirmMatches, { message: 'Passwords do not match', path: ['confirmPassword'] })
+  .refine(confirmMatches, { message: 'validation:passwordsMismatch', path: ['confirmPassword'] })
 
 export const changePasswordSchema = z
   .object({
     currentPassword: z.string().optional(),
     newPassword: passwordRules,
-    confirmPassword: z.string().min(1, 'Confirm your password'),
+    confirmPassword: z.string().min(1, 'validation:confirmRequired'),
   })
-  .refine(confirmMatches, { message: 'Passwords do not match', path: ['confirmPassword'] })
+  .refine(confirmMatches, { message: 'validation:passwordsMismatch', path: ['confirmPassword'] })
 
 export type LoginPayload = z.infer<typeof loginSchema>
 export type RegisterPayload = z.infer<typeof registerSchema>

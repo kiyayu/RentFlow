@@ -5,12 +5,15 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { getErrorMessage } from '@/lib/errors'
+import { useTranslation } from '@/lib/i18n'
+import { translateMessage } from '@/lib/i18n/translate'
 import { useChangePassword } from '../hooks/useSessions'
 import { changePasswordSchema, type ChangePasswordForm as Values } from '../schemas/auth.schema'
 import { FormError } from './FormError'
 import { PasswordHint } from './PasswordHint'
 
 export function ChangePasswordForm() {
+  const { t } = useTranslation('auth')
   const { mutate, isPending, error } = useChangePassword()
 
   const {
@@ -25,7 +28,7 @@ export function ChangePasswordForm() {
       { currentPassword: currentPassword || undefined, newPassword },
       {
         onSuccess: () => {
-          toast.success('Password updated')
+          toast.success(t('changePassword.success'))
           reset()
         },
       }
@@ -34,17 +37,17 @@ export function ChangePasswordForm() {
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
       <FormError message={error ? getErrorMessage(error) : undefined} />
-      <Input label="Current password" type="password" autoComplete="current-password"
-        {...register('currentPassword')} error={errors.currentPassword?.message} />
+      <Input label={t('changePassword.current')} type="password" autoComplete="current-password"
+        {...register('currentPassword')} error={translateMessage(t, errors.currentPassword?.message)} />
       <div className="space-y-1.5">
-        <Input label="New password" type="password" autoComplete="new-password"
-          {...register('newPassword')} error={errors.newPassword?.message} />
+        <Input label={t('changePassword.new')} type="password" autoComplete="new-password"
+          {...register('newPassword')} error={translateMessage(t, errors.newPassword?.message)} />
         <PasswordHint />
       </div>
-      <Input label="Confirm new password" type="password" autoComplete="new-password"
-        {...register('confirmPassword')} error={errors.confirmPassword?.message} />
+      <Input label={t('changePassword.confirm')} type="password" autoComplete="new-password"
+        {...register('confirmPassword')} error={translateMessage(t, errors.confirmPassword?.message)} />
       <Button type="submit" disabled={isPending}>
-        {isPending ? 'Saving...' : 'Update password'}
+        {isPending ? t('changePassword.submitting') : t('changePassword.submit')}
       </Button>
     </form>
   )

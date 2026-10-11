@@ -1,16 +1,17 @@
 //src/features/auth/pages/ForgotPasswordPage.tsx
 import { paths } from '@/config/paths'
+import { useTranslation } from '@/lib/i18n'
 import { AuthHeading } from '../components/AuthHeading'
 import { AuthSwitch } from '../components/AuthSwitch'
 import { ForgotPasswordForm } from '../components/ForgotPasswordForm'
 
 export default function ForgotPasswordPage() {
+  const { t } = useTranslation('auth')
   return (
     <>
-      <AuthHeading title="Forgot your password?"
-        description="Enter your email and we will send you a reset link." />
+      <AuthHeading title={t('forgot.title')} description={t('forgot.description')} />
       <ForgotPasswordForm />
-      <AuthSwitch text="Remembered it?" label="Log in" to={paths.login} />
+      <AuthSwitch text={t('forgot.remembered')} label={t('forgot.logIn')} to={paths.login} />
     </>
   )
 }

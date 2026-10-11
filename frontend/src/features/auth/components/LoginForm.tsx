@@ -1,4 +1,3 @@
-
 //src/features/auth/components/LoginForm.tsx
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
@@ -7,20 +6,21 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { paths } from '@/config/paths'
 import { getErrorMessage } from '@/lib/errors'
+import { useTranslation } from '@/lib/i18n'
+import { translateMessage } from '@/lib/i18n/translate'
 import { useLogin } from '../hooks/useLogin'
 import { getSafeRedirect } from '../redirect'
 import { loginSchema, type LoginPayload } from '../schemas/auth.schema'
 import { FormError } from './FormError'
- 
 
 // Matches the backend message exactly. If the wording changes, only this line breaks.
 const UNVERIFIED_MESSAGE = 'Please verify your email before logging in'
 
 export function LoginForm() {
+  const { t } = useTranslation('auth')
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const { mutate, isPending, error } = useLogin()
-  
 
   const {
     register,
@@ -47,24 +47,24 @@ export function LoginForm() {
             to={`${paths.verifyEmail}?${new URLSearchParams({ email: getValues('email') })}`}
             className="font-medium text-primary hover:underline"
           >
-            Enter your verification code
+            {t('login.verifyLink')}
           </Link>
         </p>
       )}
 
-      <Input label="Email" type="email" autoComplete="email"
-        {...register('email')} error={errors.email?.message} />
-      <Input label="Password" type="password" autoComplete="current-password"
-        {...register('password')} error={errors.password?.message} />
+      <Input label={t('login.email')} type="email" autoComplete="email"
+        {...register('email')} error={translateMessage(t, errors.email?.message)} />
+      <Input label={t('login.password')} type="password" autoComplete="current-password"
+        {...register('password')} error={translateMessage(t, errors.password?.message)} />
 
       <div className="text-right">
         <Link to={paths.forgotPassword} className="text-sm text-primary hover:underline">
-          Forgot password?
+          {t('login.forgot')}
         </Link>
       </div>
 
       <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? 'Logging in...' : 'Log in'}
+        {isPending ? t('login.submitting') : t('login.submit')}
       </Button>
     </form>
   )

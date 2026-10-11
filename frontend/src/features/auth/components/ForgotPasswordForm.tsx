@@ -7,11 +7,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { paths } from '@/config/paths'
 import { getErrorMessage } from '@/lib/errors'
+import { Trans, useTranslation } from '@/lib/i18n'
+import { translateMessage } from '@/lib/i18n/translate'
 import { useForgotPassword } from '../hooks/useAuthMutations'
 import { forgotPasswordSchema, type ForgotPasswordPayload } from '../schemas/auth.schema'
 import { FormError } from './FormError'
 
 export function ForgotPasswordForm() {
+  const { t } = useTranslation('auth')
   const [sentTo, setSentTo] = useState<string | null>(null)
   const { mutate, isPending, error } = useForgotPassword()
 
@@ -29,11 +32,15 @@ export function ForgotPasswordForm() {
     return (
       <div className="space-y-4">
         <p className="text-sm text-foreground">
-          If an account exists for <span className="font-medium">{sentTo}</span>, we sent a
-          link to reset the password. Check your inbox.
+          <Trans
+            i18nKey="forgot.sent"
+            ns="auth"
+            values={{ email: sentTo }}
+            components={{ b: <span className="font-medium" /> }}
+          />
         </p>
         <Button asChild variant="outline" className="w-full">
-          <Link to={paths.login}>Back to log in</Link>
+          <Link to={paths.login}>{t('forgot.backToLogin')}</Link>
         </Button>
       </div>
     )
@@ -42,10 +49,10 @@ export function ForgotPasswordForm() {
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
       <FormError message={error ? getErrorMessage(error) : undefined} />
-      <Input label="Email" type="email" autoComplete="email"
-        {...register('email')} error={errors.email?.message} />
+      <Input label={t('forgot.email')} type="email" autoComplete="email"
+        {...register('email')} error={translateMessage(t, errors.email?.message)} />
       <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? 'Sending...' : 'Send reset link'}
+        {isPending ? t('forgot.submitting') : t('forgot.submit')}
       </Button>
     </form>
   )

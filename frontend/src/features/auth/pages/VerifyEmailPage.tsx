@@ -1,11 +1,13 @@
 //src/features/auth/pages/VerifyEmailPage.tsx
 import { Navigate, useSearchParams } from 'react-router-dom'
 import { paths } from '@/config/paths'
+import { useTranslation } from '@/lib/i18n'
 import { AuthHeading } from '../components/AuthHeading'
 import { AuthSwitch } from '../components/AuthSwitch'
 import { VerifyOtpForm } from '../components/VerifyOtpForm'
 
 export default function VerifyEmailPage() {
+  const { t } = useTranslation('auth')
   const [searchParams] = useSearchParams()
   const email = searchParams.get('email')
 
@@ -13,9 +15,9 @@ export default function VerifyEmailPage() {
 
   return (
     <>
-      <AuthHeading title="Check your email" description={`We sent a 6-digit code to ${email}.`} />
+      <AuthHeading title={t('verify.title')} description={t('verify.description', { email })} />
       <VerifyOtpForm email={email} />
-      <AuthSwitch text="Wrong email?" label="Start over" to={paths.register} />
+      <AuthSwitch text={t('verify.wrongEmail')} label={t('verify.startOver')} to={paths.register} />
     </>
   )
 }
