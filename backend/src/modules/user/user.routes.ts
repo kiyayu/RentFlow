@@ -14,7 +14,6 @@ router.put('/change-email', authenticate, validation(changeEmailSchema), asyncHa
 router.put('/deactivate', authenticate, asyncHandler(userController.deactivateUser))
 router.put('/hard-delete', authenticate, asyncHandler(userController.hardDeleteUser))
 router.delete('/lists', authenticate, validation(listUsersQuerySchema), asyncHandler(userController.listUser) )
-//src/modules/user/user.routes.ts  (add; import setAvatarSchema)
 router.put('/avatar', authenticate, validation(setAvatarSchema), asyncHandler(userController.setAvatar))
 router.delete('/avatar', authenticate, asyncHandler(userController.removeAvatar))
 export default router
