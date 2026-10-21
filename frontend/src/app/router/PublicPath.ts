@@ -13,6 +13,9 @@ export const marketingRoutes: RouteObject[] = [
   { path: 'terms', handle: { title: 'Terms of Service' }, lazy: page(() => import('@/features/marketing/pages/TermsPage')) },
   { path: 'privacy', handle: { title: 'Privacy Policy' }, lazy: page(() => import('@/features/marketing/pages/PrivacyPage')) },
   { path: 'price', handle: { title: 'Pricing' }, lazy: page(() => import('@/features/marketing/pages/PricePage')) },
+  { path: 'products', handle: { title: 'Equipment' }, lazy: page(() => import('@/features/product/pages/ProductCatalogPage')) },
+  { path: 'products/:slug', handle: { title: 'Equipment' }, lazy: page(() => import('@/features/product/pages/ProductDetailPage')) },
+  { path: 'products/:slug/reserve', handle: { title: 'Reserve equipment' }, lazy: page(() => import('@/features/reservation/pages/ReservationPage')) },
 ]
 
 // Auth: only for logged-out users. The guard sits on the group, not on each page.

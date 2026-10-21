@@ -1,4 +1,3 @@
-//src/common/handlers/errorHandler.ts 
 import { Response, Request, NextFunction,   } from "express";
 import { ApiError } from "../errors/apiErrors.js";
 import { sendError } from "./responseHandler.js";

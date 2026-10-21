@@ -1,0 +1,17 @@
+export const notifications = {
+  title: 'ማሳወቂያዎች',
+  description: 'ስለ መለያዎ የሚመጡ የደህንነት ማሳወቂያዎች።',
+  bell: 'ማሳወቂያዎች',
+  bellUnread: 'ማሳወቂያዎች፣ {{count}} ያልተነበቡ',
+  markAllRead: 'ሁሉንም እንደተነበበ ምልክት አድርግ',
+  markAllReadLong: 'ሁሉንም እንደተነበበ ምልክት አድርግ',
+  viewAll: 'ሁሉንም ተመልከት',
+  empty: 'ማሳወቂያ የለዎትም።',
+  emptyShort: 'ማሳወቂያ የለም።',
+  loading: 'በመጫን ላይ...',
+  loadFailed: 'ማሳወቂያዎችን መጫን አልተቻለም።',
+  delete: 'ማሳወቂያ ሰርዝ',
+  previous: 'የቀድሞ',
+  next: 'ቀጣይ',
+  pageOf: 'ገጽ {{current}} ከ{{total}}',
+} as const

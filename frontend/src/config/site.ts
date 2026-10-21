@@ -4,7 +4,7 @@ import { paths } from './paths'
 
 // Facts only. All wording lives in locale files.
 export const site = {
-  name: 'BrandName',
+  name: 'RentFlow',
   supportEmail: 'support@example.com', // replace per project
   legalUpdated: '2026-01-01', // replace when the legal text changes
 }

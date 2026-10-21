@@ -23,10 +23,10 @@ const notificationSchema = new Schema<INotification>(
   { timestamps: true }
 )
 
-// list newest-first per user, and count unread per user
+
 notificationSchema.index({ userId: 1, createdAt: -1 })
 notificationSchema.index({ userId: 1, readAt: 1 })
-// auto-delete after 90 days
+
 notificationSchema.index({ createdAt: 1 }, { expireAfterSeconds: NOTIFICATION_TTL_SECONDS })
 
 export const Notification = mongoose.model<INotification>('Notification', notificationSchema)

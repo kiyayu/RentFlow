@@ -12,6 +12,9 @@ import authRoutes from './modules/auth/auth.routes.js'
 import userRoutes from './modules/user/user.routes.js'
 import notificationRoutes from './modules/notification/notification.routes.js'
 import uploadRoutes from './modules/upload/upload.routes.js'
+import productRoutes from './modules/product/product.routes.js'
+import unitRoutes from './modules/unit/unit.routes.js'
+import reservationRoutes from './modules/reservation/reservation.routes.js'
 
 const app = express()
 
@@ -41,6 +44,9 @@ app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/notifications', notificationRoutes) 
 app.use('/api/uploads', uploadRoutes)
+app.use('/api/products', productRoutes)
+app.use('/api/units', unitRoutes)
+app.use('/api/reservations', reservationRoutes)
 app.use((_req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' })
 })

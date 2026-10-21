@@ -10,18 +10,21 @@ import { NavList } from './NavList'
 import { MobileSidebar } from './MobileSidebar'
 import { Topbar, type ShellUser } from './Topbar'
 import { appConfig } from './nav.config'
+import type { WorkspaceConfig } from './workspace.config'
 
 export function AppShell({
   user,
   onLogout,
   notifications,
+  config = appConfig,
 }: {
   user?: ShellUser
   onLogout?: () => void
   notifications?: React.ReactNode
+  config?: WorkspaceConfig
 }) {
   const { t } = useTranslation('layout')
-  const isSidebar = appConfig.layout === 'sidebar'
+  const isSidebar = config.layout === 'sidebar'
 
   const openSidebar = useLayoutStore((s) => s.openSidebar)
   const collapsed = useLayoutStore((s) => s.sidebarCollapsed)
@@ -60,10 +63,10 @@ export function AppShell({
           />
         )}
 
-        <span className="text-base font-semibold text-foreground">{appConfig.brand}</span>
+        <span className="text-base font-semibold text-foreground">{config.brand}</span>
 
         {/* lg and up, topnav variant only: links live in the navbar */}
-        {!isSidebar && <NavList orientation="horizontal" className="hidden ml-4 lg:flex" />}
+        {!isSidebar && <NavList config={config} orientation="horizontal" className="hidden ml-4 lg:flex" />}
 
         <Topbar user={user} onLogout={onLogout} notifications={notifications} />
       </header>
@@ -77,7 +80,7 @@ export function AppShell({
             )}
           >
             <div className="w-56 p-4">
-              <NavList />
+              <NavList config={config} />
             </div>
           </aside>
         )}
@@ -99,7 +102,7 @@ export function AppShell({
         </div>
       </div>
 
-      <MobileSidebar />
+      <MobileSidebar config={config} />
     </div>
   )
 }

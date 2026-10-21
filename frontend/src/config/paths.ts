@@ -10,10 +10,19 @@ export const paths = {
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
   price:'price',
+  productCatalog: '/products',
+  productDetail: (slug: string) => `/products/${slug}`,
   
   app: {
     root: "/app",
     dashboard: "/app/dashboard",
+    createProduct: "/app/products/new",
+    products: '/app/products',
+    equipment: '/app/equipment',
+    equipmentDetail: (slug: string) => `/app/equipment/${slug}`,
+    reserveEquipment: (slug: string) => `/app/equipment/${slug}/reserve`,
+    inventory: '/app/inventory',
+    reservations: '/app/reservations',
      
   },
   settings: {

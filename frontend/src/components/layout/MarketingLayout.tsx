@@ -9,6 +9,7 @@ import { useTranslation } from '@/lib/i18n'
 import { paths } from '@/config/paths'
 import { site } from '@/config/site'
 import { publicConfig } from './public.config'
+import { PublicLanguageSelector } from './PublicLanguageSelector'
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   cn(
@@ -46,6 +47,7 @@ function MarketingNavbar() {
         </nav>
 
         <div className="flex items-center gap-2 ml-auto">
+          <PublicLanguageSelector />
           <Button asChild variant="ghost" className="hidden sm:inline-flex">
             <Link to={cta.login.to}>{t(cta.login.labelKey)}</Link>
           </Button>

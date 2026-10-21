@@ -4,8 +4,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { useLayoutStore } from '@/store/layout.ui.store'
 import { NavList } from './NavList'
 import { appConfig } from './nav.config'
+import type { WorkspaceConfig } from './workspace.config'
 
-export function MobileSidebar() {
+export function MobileSidebar({ config = appConfig }: { config?: WorkspaceConfig }) {
   const open = useLayoutStore((s) => s.sidebarOpen)
   const close = useLayoutStore((s) => s.closeSidebar)
 
@@ -23,9 +24,9 @@ export function MobileSidebar() {
     <Sheet open={open} onOpenChange={(isOpen) => !isOpen && close()}>
       <SheetContent side="left" className="w-64 p-4 lg:hidden">
         <SheetHeader>
-          <SheetTitle>{appConfig.brand}</SheetTitle>
+          <SheetTitle>{config.brand}</SheetTitle>
         </SheetHeader>
-        <NavList onNavigate={close} />
+        <NavList config={config} onNavigate={close} />
       </SheetContent>
     </Sheet>
   )

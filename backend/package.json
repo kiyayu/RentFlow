@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "seed:rental-catalog": "npm run build && node dist/scripts/seedRentalCatalog.js",
     "start": "node dist/server.js",
     "test": "vitest",
     "lint": "eslint . --ext .ts",

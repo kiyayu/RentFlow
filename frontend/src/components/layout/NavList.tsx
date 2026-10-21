@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { useTranslation } from '@/lib/i18n'
 import { appConfig } from './nav.config'
+import type { WorkspaceConfig } from './workspace.config'
 
 type Orientation = 'vertical' | 'horizontal'
 
@@ -21,13 +22,16 @@ export function NavList({
   orientation = 'vertical',
   className,
   onNavigate,
+  config,
 }: {
   orientation?: Orientation
   className?: string
   onNavigate?: () => void
+  config?: WorkspaceConfig
 }) {
   const { t } = useTranslation('layout')
 
+  const items = config?.nav ?? appConfig.nav
   return (
     <nav
       aria-label={t('shell.mainNavigation')}
@@ -36,7 +40,7 @@ export function NavList({
         className
       )}
     >
-      {appConfig.nav.map(({ labelKey, to, icon: Icon }) => (
+      {items.map(({ labelKey, to, icon: Icon }) => (
         <NavLink key={to} to={to} className={linkClass(orientation)} onClick={onNavigate}>
           <Icon className="size-4" />
           {t(labelKey)}

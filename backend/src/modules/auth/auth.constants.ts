@@ -1,7 +1,7 @@
 // src/modules/auth/auth.constants.ts
 
-export const REFRESH_TTL_MS = 7 * 24 * 60 * 60 * 1000   // sliding 7-day session window
-export const GRACE_WINDOW_MS = 10 * 1000                  // 10s — tight, only covers genuine same-instant races
+export const REFRESH_TTL_MS = 7 * 24 * 60 * 60 * 1000
+export const GRACE_WINDOW_MS = 10 * 1000
 
 export const OTP_TTL_MS = 5 * 60 * 1000
 export const OTP_COOLDOWN_MS = 60 * 1000

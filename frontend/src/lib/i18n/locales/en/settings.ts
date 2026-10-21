@@ -57,6 +57,11 @@ export const settings = {
     light: 'Light',
     dark: 'Dark',
     system: 'System',
+    languageTitle: 'Language',
+    languageDescription: 'Choose the display language for the app.',
+    language: 'Language',
+    english: 'English',
+    amharic: 'Amharic',
   },
   privacy: {
     dataTitle: 'Your data',

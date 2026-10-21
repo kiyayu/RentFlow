@@ -6,7 +6,7 @@ import { asyncHandler } from "../../common/middlewares/asyncHandler.js"
 import { clearAuthCookie, setAccessTokenCookie, setRefreshTokenCookie } from "../../common/utils/cookes.js"
 import { env } from "../../config/env.js"
 import { parseDeviceLabel } from "../../common/utils/deviceLabel.js"
-import { CreateLoginDTO, DeviceMetadata ,   
+import { CreateLoginDTO, DeviceMetadata ,
     ForgotPasswordDTO, ResetPasswordDTO, VerifyOtpDTO, ResendOtpDTO,
      ChangePasswordDTO, RevokeSessionParamsDTO} from "./auth.dto.js"
 import { CreateUserDTO } from "../user/user.dto.js"
@@ -25,7 +25,7 @@ const buildMetadata = (req: Request): DeviceMetadata => {
 export const authController = {
   authRegister: asyncHandler(async (req: Request, res: Response) => {
     const data = req.data?.body as CreateUserDTO
-    const user = await authService.register(data) 
+    const user = await authService.register(data)
 
     return sendSuccess({
       res,
@@ -114,9 +114,8 @@ authGoogleStart: async (req: Request, res: Response) => {
     const { currentPassword, newPassword } = req.data?.body as ChangePasswordDTO
     const userId = req.user!.id
 
-    // needed to protect the CURRENT device's session from being revoked
-    // by changePassword's "kill every other family" logic
-    const incomingRawToken = req.signedCookies?.refreshToken 
+
+    const incomingRawToken = req.signedCookies?.refreshToken
     const currentFamily = incomingRawToken
       ? await authService.resolveFamilyIdFromToken(incomingRawToken)
       : null
@@ -132,7 +131,7 @@ authGoogleStart: async (req: Request, res: Response) => {
   }),
 
   revokeSession: asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!.id 
+    const userId = req.user!.id
     const { familyId } = req.data?.params as RevokeSessionParamsDTO
     await authService.revokeSession(userId, familyId)
     return sendSuccess({ res, message: "Session revoked" })

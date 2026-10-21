@@ -30,7 +30,7 @@ export const logger = pino({
   },
 })
 
- 
+
 export const authLogger = {
 
   loginSuccess: (userId: string, ip: string): void => {
@@ -71,8 +71,7 @@ export const authLogger = {
   },
 
   tokenTheftDetected: (userId: string, ip: string): void => {
-    // error level — this needs immediate attention
-    // In production: set up an alert on this event
+
     logger.error({
       type:   'auth',
       event:  'token_theft_detected',

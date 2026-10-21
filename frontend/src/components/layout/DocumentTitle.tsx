@@ -6,12 +6,13 @@ import { useTranslation } from '@/lib/i18n'
 
 export function DocumentTitle() {
   const { t } = useTranslation('layout')
-  const matches = useMatches() as { handle?: { titleKey?: string } }[]
-  const key = [...matches].reverse().find((m) => m.handle?.titleKey)?.handle?.titleKey
+  const matches = useMatches() as { handle?: { title?: string; titleKey?: string } }[]
+  const handle = [...matches].reverse().find((m) => m.handle?.title || m.handle?.titleKey)?.handle
 
   useEffect(() => {
-    document.title = key ? `${t(key as never)} · ${site.name}` : site.name
-  }, [key, t])
+    const title = handle?.titleKey ? t(handle.titleKey as never) : handle?.title
+    document.title = title ? `${title} · ${site.name}` : site.name
+  }, [handle?.title, handle?.titleKey, t])
 
   return null
 }

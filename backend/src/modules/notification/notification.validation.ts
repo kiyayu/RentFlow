@@ -8,7 +8,7 @@ export const listNotificationsSchema = z.object({
   query: z.object({
     page: z.coerce.number().int().min(1).optional(),
     limit: z.coerce.number().int().min(1).max(NOTIFICATION_MAX_PAGE_SIZE).optional(),
-    // z.coerce.boolean() would treat the string "false" as true, so parse it explicitly
+
     unreadOnly: z.enum(['true', 'false']).transform((v) => v === 'true').optional(),
   }).strict(),
 })

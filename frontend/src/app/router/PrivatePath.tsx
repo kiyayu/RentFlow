@@ -17,6 +17,13 @@ export const PrivateRoute: RouteObject[] = [
     children: [
       { index: true, loader: () => redirect(paths.app.dashboard) },
       { path: 'dashboard', handle: { title: 'Dashboard' }, lazy: page(() => import('@/features/dashboard/Pages/Dashboard')) },
+      { path: 'products', handle: { title: 'Equipment' }, lazy: page(() => import('@/features/product/pages/ManageProductsPage')) },
+      { path: 'products/new', handle: { title: 'Add equipment' }, lazy: page(() => import('@/features/product/pages/CreateProductPage')) },
+      { path: 'equipment', handle: { title: 'Equipment' }, lazy: page(() => import('@/features/product/pages/AppEquipmentPage')) },
+      { path: 'equipment/:slug', handle: { title: 'Equipment details' }, lazy: page(() => import('@/features/product/pages/AppEquipmentDetailPage')) },
+      { path: 'equipment/:slug/reserve', handle: { title: 'Reserve equipment' }, lazy: page(() => import('@/features/reservation/pages/ReservationPage')) },
+      { path: 'inventory', handle: { title: 'Inventory' }, lazy: page(() => import('@/features/inventory/pages/InventoryPage')) },
+      { path: 'reservations', handle: { title: 'My reservations' }, lazy: page(() => import('@/features/reservation/pages/ReservationsPage')) },
        
       {
         path: 'settings',

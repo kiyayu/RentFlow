@@ -20,7 +20,7 @@ const mapResponse = (n: any): NotificationResponseDTO => ({
 })
 
 export const notificationService = {
-  // Called by other modules. NEVER throws: the main action already succeeded.
+
   notify: async (input: NotifyInput): Promise<void> => {
     try {
       const entry = NOTIFICATION_CATALOG[input.type]
@@ -34,7 +34,7 @@ export const notificationService = {
       })
 
       if (entry.email) {
-        // jobId = notification id, so a retry can never send the same email twice
+
         await notificationQueue.add(
           'send',
           { to: input.emailTo, name: input.name, subject: entry.title, message },
@@ -68,7 +68,7 @@ export const notificationService = {
 
   markRead: async (userId: string, id: string): Promise<NotificationResponseDTO> => {
     const doc = await Notification.findOneAndUpdate(
-      { _id: new Types.ObjectId(id), userId },        // userId in the filter = ownership check
+      { _id: new Types.ObjectId(id), userId },
       { $set: { readAt: new Date() } },
       { new: true }
     )

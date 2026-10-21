@@ -12,8 +12,7 @@ import { REFRESH_TTL_MS, GRACE_WINDOW_MS, OTP_COOLDOWN_MS, OTP_MAX_ATTEMPTS, GEN
 import { sha256, safeEqualHex, normalizeEmail, issueOpaqueToken, issueOtp, issueResetToken } from "./auth.helpers.js"
 import { mapResponse } from "../user/user.service.js"
 import { notificationService } from "../notification/notification.service.js"
-// Shared session-issuing step — used by both login and googleAuth,
-// since from this point on there's no difference between how she arrived.
+
 const createSession = async (user: any, metadata: DeviceMetadata) => {
   const { raw, hash } = issueOpaqueToken()
   const now = new Date()
@@ -21,7 +20,7 @@ const createSession = async (user: any, metadata: DeviceMetadata) => {
   await TokenFamily.create({
     userId: user._id,
     currentTokenHash: hash,
-    
+
     lastUsedAt: now,
     expiresAt: new Date(now.getTime() + REFRESH_TTL_MS),
     ip: metadata.ip ?? 'unknown',
@@ -128,7 +127,7 @@ await notificationService.notify({
       return { accessToken, refreshToken: newRawToken }
     }
 
-    // CAS failed — figure out why: race, replay, or unknown token
+
     const family = await TokenFamily.findOne({ previousTokenHash: incomingHash })
     if (!family) throw ApiError.unauthorized('Invalid refresh token')
 
@@ -139,7 +138,7 @@ await notificationService.notify({
       const user = await User.findById(family.userId)
       if (!user) throw ApiError.notFound('User not found')
       const accessToken = await signAccessToken(user.role, user._id, user.name, user.email)
-      return { accessToken } // no new refresh token — winner's cookie already covers this
+      return { accessToken }
     }
 
     family.revokedAt = now
@@ -184,7 +183,7 @@ await notificationService.notify({
   }
 
   const email = normalizeEmail(googleUser.email)
-  // FIX: must select googleId explicitly, or the mismatch check below is silently skipped
+
   let existingUser = await User.findOne({ email }).select('+googleId')
 
   if (existingUser) {
@@ -233,7 +232,7 @@ await notificationService.notify({
     const hashedIncoming = sha256(rawToken)
     const now = new Date()
 
-    // select:false fields needed here: passwordResetToken, passwordResetExpiry
+
     const user = await User.findOne({ passwordResetToken: hashedIncoming })
       .select('+passwordResetToken +passwordResetExpiry')
 
@@ -256,7 +255,7 @@ await notificationService.notify({
 
   verifyOtp: async (rawEmail: string, submittedCode: string): Promise<string> => {
     const email = normalizeEmail(rawEmail)
-    // select:false fields needed here: otpCodeHash, otpExpiry, otpAttempts
+
     const user = await User.findOne({ email }).select('+otpCodeHash +otpExpiry +otpAttempts')
 
     if (!user) throw ApiError.notFound('User not found')

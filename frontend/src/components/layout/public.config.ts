@@ -9,6 +9,7 @@ export type PublicLink = { labelKey: Key; to: string }
 export const publicConfig = {
   nav: [
     { labelKey: 'nav.home', to: paths.home },
+    { labelKey: 'nav.products', to: paths.productCatalog },
     { labelKey: 'nav.contact', to: paths.contact },
   ] satisfies PublicLink[],
   cta: {

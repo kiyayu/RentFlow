@@ -9,7 +9,7 @@ const router = express.Router()
 
 router.use(authenticate)
 
-// fixed paths first, so '/:id' never swallows them
+
 router.get('/',  validation(listNotificationsSchema), notificationController.list)
 router.get('/unread-count', notificationController.unreadCount)
 router.patch('/read-all', notificationController.markAllRead)

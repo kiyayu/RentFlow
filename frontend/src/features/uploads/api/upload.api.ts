@@ -13,6 +13,12 @@ export type SignedUpload = {
 
 export type UploadPurpose = 'avatar' | 'attachment'
 
+export type ConfirmedUpload = {
+  fileKey: string
+  fileUrl: string
+  bytes: number
+}
+
 export const uploadApi = {
   sign: async (input: { purpose: UploadPurpose; contentType: string; size: number }): Promise<SignedUpload> => {
     const res = await api.post<{ data: SignedUpload }>('/uploads/sign', input)
@@ -32,5 +38,14 @@ export const uploadApi = {
       withCredentials: false,
       onUploadProgress: (e) => e.total && onProgress?.(Math.round((e.loaded / e.total) * 100)),
     })
+  },
+
+  confirm: async (input: { purpose: UploadPurpose; fileKey: string }): Promise<ConfirmedUpload> => {
+    const res = await api.post<{ data: ConfirmedUpload }>('/uploads/confirm', input)
+    return res.data.data
+  },
+
+  remove: async (fileKey: string): Promise<void> => {
+    await api.delete('/uploads', { params: { fileKey } })
   },
 }

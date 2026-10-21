@@ -5,9 +5,7 @@ import { OTP_TTL_MS, RESET_TTL_MS } from './auth.constants.js'
 export const sha256 = (value: string): string =>
   crypto.createHash('sha256').update(value).digest('hex')
 
-// Constant-time comparison — plain === on hashes can theoretically leak
-// timing info about how many leading chars matched. Cheap to use everywhere
-// we compare a submitted secret against a stored hash.
+
 export const safeEqualHex = (a?: string | null, b?: string | null): boolean => {
   if (!a || !b || a.length !== b.length) return false
   return crypto.timingSafeEqual(Buffer.from(a, 'hex'), Buffer.from(b, 'hex'))
@@ -15,7 +13,7 @@ export const safeEqualHex = (a?: string | null, b?: string | null): boolean => {
 
 export const normalizeEmail = (email: string): string => email.trim().toLowerCase()
 
-// Refresh tokens, reset tokens — opaque, high-entropy, never signed as a JWT.
+
 export const issueOpaqueToken = (): { raw: string; hash: string } => {
   const raw = randomBytes(32).toString('hex')
   return { raw, hash: sha256(raw) }

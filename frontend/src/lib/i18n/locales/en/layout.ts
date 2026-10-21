@@ -5,6 +5,10 @@ export const layout = {
     notes: 'Notes',
     tasks: 'Tasks',
     home: 'Home',
+    products: 'Equipment',
+    equipment: 'Equipment',
+    inventory: 'Inventory',
+    reservations: 'Reservations',
     contact: 'Contact',
   },
   account: {

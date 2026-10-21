@@ -14,7 +14,7 @@ export function Hero() {
       <p className="max-w-2xl mx-auto text-base text-muted-foreground">{t('hero.description')}</p>
       <div className="flex flex-col items-center justify-center gap-2 sm:flex-row">
         <Button asChild size="lg">
-          <Link to={paths.register}>{t('hero.primary')}</Link>
+          <Link to={paths.productCatalog}>{t('hero.primary')}</Link>
         </Button>
         <Button asChild size="lg" variant="outline">
           <Link to={paths.login}>{t('hero.secondary')}</Link>
