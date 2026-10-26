@@ -1,5 +1,6 @@
  // src/app.ts
 import express from 'express'
+import path from 'node:path'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
@@ -47,6 +48,25 @@ app.use('/api/uploads', uploadRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/units', unitRoutes)
 app.use('/api/reservations', reservationRoutes)
+
+const staticDir = process.env.STATIC_DIR
+
+if (staticDir) {
+  app.use(express.static(staticDir))
+  app.use((req, res, next) => {
+    if (
+      req.method === 'GET' &&
+      !req.path.startsWith('/api/') &&
+      req.accepts('html')
+    ) {
+      res.sendFile(path.join(staticDir, 'index.html'))
+      return
+    }
+
+    next()
+  })
+}
+
 app.use((_req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' })
 })
