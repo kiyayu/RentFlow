@@ -1,0 +1,48 @@
+FROM node:24-bookworm-slim AS frontend-build
+
+ARG VITE_API_BASE_URL
+ARG VITE_DEFAULT_LANG=en
+
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+ENV VITE_DEFAULT_LANG=$VITE_DEFAULT_LANG
+
+WORKDIR /frontend
+
+COPY frontend/package.json frontend/package-lock.json ./
+
+RUN npm ci
+
+COPY frontend ./
+
+RUN npm run build
+
+FROM node:24-bookworm-slim AS backend-build
+
+WORKDIR /backend
+
+COPY backend/package.json backend/package-lock.json ./
+
+RUN npm ci
+
+COPY backend/tsconfig.json ./
+COPY backend/src ./src
+
+RUN npm run build && npm prune --omit=dev
+
+FROM node:24-bookworm-slim AS runtime
+
+ENV NODE_ENV=production
+ENV STATIC_DIR=/app/public
+
+WORKDIR /app
+
+COPY --from=backend-build /backend/package.json ./
+COPY --from=backend-build /backend/node_modules ./node_modules
+COPY --from=backend-build /backend/dist ./dist
+COPY --from=frontend-build /frontend/dist ./public
+
+USER node
+
+EXPOSE 10000
+
+CMD ["node", "dist/server.js"]
