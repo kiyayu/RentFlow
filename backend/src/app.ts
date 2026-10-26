@@ -18,7 +18,7 @@ import unitRoutes from './modules/unit/unit.routes.js'
 import reservationRoutes from './modules/reservation/reservation.routes.js'
 
 const app = express()
-
+app.set('trust proxy', env.trustProxy)
 app.use(helmet())
 app.use(cors({
   origin:      env.clientUrl,

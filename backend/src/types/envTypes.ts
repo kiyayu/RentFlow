@@ -11,6 +11,7 @@
     jwtRefreshExpiresIn:string
     clientUrl:string
     cookieSecret:string
+    trustProxy:number
 
 
   // Email

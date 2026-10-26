@@ -51,6 +51,7 @@ const envSchema = z
 
     JWT_ACCESS_SECRET: secret,
     JWT_REFRESH_SECRET: secret,
+    TRUST_PROXY: z.coerce.number().int().min(0).max(5).default(0),
 
     JWT_ACCESS_EXPIRES_IN: nonEmptyString,
     JWT_REFRESH_EXPIRES_IN: nonEmptyString,
@@ -58,6 +59,7 @@ const envSchema = z
     CLIENT_URL: z.string().url(),
 
     COOKIE_SECRET: secret,
+
 
     SMTP_HOST: nonEmptyString,
     SMTP_PORT: port.default(587),
@@ -154,6 +156,7 @@ export const env: EnvTypes = {
   jwtRefreshExpiresIn: parsed.data.JWT_REFRESH_EXPIRES_IN,
 
   clientUrl: parsed.data.CLIENT_URL,
+  trustProxy: parsed.data.TRUST_PROXY,
   cookieSecret: parsed.data.COOKIE_SECRET,
 
   smtpHost: parsed.data.SMTP_HOST,
