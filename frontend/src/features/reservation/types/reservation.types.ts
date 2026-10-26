@@ -1,2 +1,49 @@
-export type Reservation = { id: string; reservationNumber: string; items: { productId: string; productNameSnapshot: string; quantity: number; unitPrice: number; lineTotal: number }[]; startAt: string; endAt: string; status: 'pending_payment' | 'confirmed' | 'checked_out' | 'cancelled' | 'expired' | 'completed'; holdExpiresAt?: string; pricing: { currency: 'ETB'; subtotal: number; securityDeposit: number; paidTotal: number; lateFee: number }; paidAt?: string; createdAt: string; customer?: { id: string; name: string; email: string }; assignedUnits: { id: string; assetTag: string; serialNumber?: string; condition: string }[]; returnInspection?: { condition: 'good' | 'damaged'; notes?: string; inspectedAt: string; lateFee: number; depositReleased: boolean } }
-export type CreateReservationInput = { items: { productId: string; quantity: number }[]; startAt: string; endAt: string }
+export type Reservation = {
+  id: string;
+  reservationNumber: string;
+  items: {
+    productId: string;
+    productNameSnapshot: string;
+    quantity: number;
+    unitPrice: number;
+    lineTotal: number;
+  }[];
+  startAt: string;
+  endAt: string;
+  status:
+    | "pending_payment"
+    | "confirmed"
+    | "checked_out"
+    | "cancelled"
+    | "expired"
+    | "completed";
+  holdExpiresAt?: string;
+  pricing: {
+    currency: "ETB";
+    subtotal: number;
+    securityDeposit: number;
+    paidTotal: number;
+    lateFee: number;
+  };
+  paidAt?: string;
+  createdAt: string;
+  customer?: { id: string; name: string; email: string };
+  assignedUnits: {
+    id: string;
+    assetTag: string;
+    serialNumber?: string;
+    condition: string;
+  }[];
+  returnInspection?: {
+    condition: "good" | "damaged";
+    notes?: string;
+    inspectedAt: string;
+    lateFee: number;
+    depositReleased: boolean;
+  };
+};
+export type CreateReservationInput = {
+  items: { productId: string; quantity: number }[];
+  startAt: string;
+  endAt: string;
+};

@@ -5,7 +5,7 @@ import { ErrorPage } from '@/components/layout/ErrorPage'
 import { queryClient } from '@/lib/query.client'
 import { sessionQueryOptions } from '@/features/auth'
 import { paths } from '@/config/paths'
-import { marketingRoutes, authRoutes, createAuthGuard } from './PublicPath'
+import { marketingRoutes, authRoutes, createAuthGuard, createHomeGuard } from './PublicPath'
 import { PrivateRoute } from './PrivatePath'
 
 const router = createBrowserRouter([
@@ -19,7 +19,9 @@ const router = createBrowserRouter([
           import('@/components/layout/MarketingLayout').then((m) => ({
             Component: m.MarketingLayout,
           })),
-        children: marketingRoutes,
+        children: marketingRoutes.map((route) =>
+          route.index ? { ...route, loader: createHomeGuard(queryClient) } : route,
+        ),
       },
       {
         loader: createAuthGuard(queryClient),

@@ -11,7 +11,7 @@ export function ProductCard({ product, detailPath = paths.productDetail(product.
 
   return (
     <Card className="h-full">
-      {product.images[0] ? (
+      {product.images?.[0] ? (
         <img src={product.images[0]} alt={product.name} className="aspect-[4/3] w-full object-cover" />
       ) : (
         <div className="aspect-[4/3] bg-muted" />

@@ -2,6 +2,7 @@
 import { redirect, type RouteObject } from 'react-router-dom'
 import type { QueryClient } from '@tanstack/react-query'
 import { sessionQueryOptions, getSafeRedirect } from '@/features/auth'
+import { paths } from '@/config/paths'
 
 const page = (load: () => Promise<{ default: React.ComponentType }>) => () =>
   load().then((m) => ({ Component: m.default }))
@@ -44,6 +45,25 @@ export function createAuthGuard(queryClient: QueryClient) {
       if (user) return redirect(redirectTarget(request))
     } catch {
       // server unreachable → treat as logged out, show the page
+    }
+
+    return null
+  }
+}
+
+export function createHomeGuard(queryClient: QueryClient) {
+  return async () => {
+    const cached = queryClient.getQueryData(sessionQueryOptions.queryKey)
+
+    if (cached !== undefined) {
+      return cached ? redirect(paths.app.dashboard) : null
+    }
+
+    try {
+      const user = await queryClient.ensureQueryData(sessionQueryOptions)
+      if (user) return redirect(paths.app.dashboard)
+    } catch {
+      return null
     }
 
     return null

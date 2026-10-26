@@ -5,7 +5,7 @@ import { useTranslation } from '@/lib/i18n'
 import { ProductCard } from '../components/ProductCard'
 import { useProductList } from '../hooks/useProducts'
 import { paths } from '@/config/paths'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 type Sort = 'newest' | 'price-low' | 'price-high' | 'name'
 const controlClassName = 'h-11 w-full rounded-lg border border-input bg-card px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50'
@@ -16,19 +16,18 @@ export default function ProductCatalogPage({ detailPath }: { detailPath?: (slug:
   const [query, setQuery] = useState('')
   const [manufacturer, setManufacturer] = useState('')
   const [sort, setSort] = useState<Sort>('newest')
-  const manufacturers = useMemo(() => [...new Set(data?.products.flatMap((product) => product.brand ? [product.brand] : []) ?? [])].sort((a, b) => a.localeCompare(b)), [data?.products])
-  const products = useMemo(() => {
-    const normalizedQuery = query.trim().toLocaleLowerCase()
-    return (data?.products ?? []).filter((product) => {
-      const searchable = [product.name, product.brand, product.description, ...Object.values(product.specifications)].filter(Boolean).join(' ').toLocaleLowerCase()
-      return (!normalizedQuery || searchable.includes(normalizedQuery)) && (!manufacturer || product.brand === manufacturer)
-    }).sort((a, b) => {
-      if (sort === 'price-low') return a.rentalPricing.amount - b.rentalPricing.amount
-      if (sort === 'price-high') return b.rentalPricing.amount - a.rentalPricing.amount
-      if (sort === 'name') return a.name.localeCompare(b.name)
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    })
-  }, [data?.products, manufacturer, query, sort])
+  const catalog = Array.isArray(data?.products) ? data.products : []
+  const manufacturers = [...new Set(catalog.flatMap((product) => product.brand ? [product.brand] : []))].sort((a, b) => a.localeCompare(b))
+  const normalizedQuery = query.trim().toLocaleLowerCase()
+  const products = catalog.filter((product) => {
+    const searchable = [product.name, product.brand, product.description, ...Object.values(product.specifications ?? {})].filter(Boolean).join(' ').toLocaleLowerCase()
+    return (!normalizedQuery || searchable.includes(normalizedQuery)) && (!manufacturer || product.brand === manufacturer)
+  }).sort((a, b) => {
+    if (sort === 'price-low') return a.rentalPricing.amount - b.rentalPricing.amount
+    if (sort === 'price-high') return b.rentalPricing.amount - a.rentalPricing.amount
+    if (sort === 'name') return a.name.localeCompare(b.name)
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  })
 
   return (
     <PageContainer width="wide" className="space-y-8 py-10">

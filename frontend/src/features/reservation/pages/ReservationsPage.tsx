@@ -1,44 +1,374 @@
-import { useQuery } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
-import { toast } from 'sonner'
-import { CalendarDays, CircleUserRound, CreditCard, PackageCheck } from 'lucide-react'
-import { PageContainer } from '@/components/layout/PageContainer'
-import { PageHeader } from '@/components/layout/PageHeader'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { sessionQueryOptions } from '@/features/auth'
-import { formatDateTime } from '@/lib/format'
-import { getErrorMessage } from '@/lib/errors'
-import { useTranslation } from '@/lib/i18n'
-import { useMyReservations, useOperationsReservations, useSimulatePayment, useUpdateReservationStatus } from '../hooks/useReservations'
-import type { Reservation } from '../types/reservation.types'
+import { useQuery } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
+import {
+  CalendarDays,
+  CircleUserRound,
+  CreditCard,
+  PackageCheck,
+} from "lucide-react";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { sessionQueryOptions } from "@/features/auth";
+import { formatDateTime } from "@/lib/format";
+import { getErrorMessage } from "@/lib/errors";
+import { useTranslation } from "@/lib/i18n";
+import {
+  useMyReservations,
+  useOperationsReservations,
+  useSimulatePayment,
+  useUpdateReservationStatus,
+} from "../hooks/useReservations";
+import type { Reservation } from "../types/reservation.types";
 
-function Status({ status }: { status: Reservation['status'] }) {
-  const { t } = useTranslation('reservation')
-  const className = status === 'confirmed' ? 'bg-success/10 text-success' : status === 'pending_payment' ? 'bg-warning/10 text-warning-foreground' : status === 'cancelled' || status === 'expired' ? 'bg-destructive/10 text-destructive' : 'bg-muted text-muted-foreground'
-  return <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${className}`}>{t(`list.status.${status}`)}</span>
+function Status({ status }: { status: Reservation["status"] }) {
+  const { t } = useTranslation("reservation");
+  const className =
+    status === "confirmed"
+      ? "bg-success/10 text-success"
+      : status === "pending_payment"
+        ? "bg-warning/10 text-warning-foreground"
+        : status === "cancelled" || status === "expired"
+          ? "bg-destructive/10 text-destructive"
+          : "bg-muted text-muted-foreground";
+  return (
+    <span
+      className={`rounded-full px-2.5 py-1 text-xs font-medium ${className}`}
+    >
+      {t(`list.status.${status}`)}
+    </span>
+  );
 }
 
 function CustomerReservations() {
-  const { t } = useTranslation('reservation')
-  const reservations = useMyReservations()
-  const payment = useSimulatePayment()
-  return <>{reservations.isPending && <p className="text-sm text-muted-foreground">{t('list.loading')}</p>}{reservations.data?.length === 0 && <p className="rounded-xl border border-dashed border-border p-8 text-sm text-muted-foreground">{t('list.empty')}</p>}<div className="grid gap-4 lg:grid-cols-2">{reservations.data?.map((reservation) => <Card key={reservation.id}><CardHeader><div className="flex items-start justify-between gap-3"><div><CardTitle>{reservation.reservationNumber}</CardTitle><p className="mt-1 text-sm text-muted-foreground">{reservation.items.map((item) => `${item.quantity} × ${item.productNameSnapshot}`).join(', ')}</p></div><Status status={reservation.status} /></div></CardHeader><CardContent className="space-y-4"><div className="grid gap-3 sm:grid-cols-2"><div className="flex gap-2"><CalendarDays className="mt-0.5 size-4 text-primary" /><div><p className="text-xs text-muted-foreground">{t('list.rentalPeriod')}</p><p className="text-sm text-foreground">{formatDateTime(reservation.startAt)} — {formatDateTime(reservation.endAt)}</p></div></div><div className="flex gap-2"><CreditCard className="mt-0.5 size-4 text-primary" /><div><p className="text-xs text-muted-foreground">{t('list.total')}</p><p className="text-sm font-semibold text-foreground">ETB {reservation.pricing.subtotal.toLocaleString()}</p></div></div></div>{reservation.status === 'pending_payment' && <div className="flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between"><p className="text-sm text-muted-foreground">{t('list.paymentDue')}</p><Button size="sm" disabled={payment.isPending} onClick={() => payment.mutate(reservation.id, { onSuccess: () => toast.success(t('list.paymentSuccess')), onError: (error) => toast.error(getErrorMessage(error)) })}>{t('list.payment')}</Button></div>}</CardContent></Card>)}</div></>
+  const { t } = useTranslation("reservation");
+  const reservations = useMyReservations();
+  const payment = useSimulatePayment();
+  return (
+    <>
+      {reservations.isPending && (
+        <p className="text-sm text-muted-foreground">{t("list.loading")}</p>
+      )}
+      {reservations.data?.length === 0 && (
+        <p className="rounded-xl border border-dashed border-border p-8 text-sm text-muted-foreground">
+          {t("list.empty")}
+        </p>
+      )}
+      <div className="grid gap-4 lg:grid-cols-2">
+        {reservations.data?.map((reservation) => (
+          <Card key={reservation.id}>
+            <CardHeader>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <CardTitle>{reservation.reservationNumber}</CardTitle>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {reservation.items
+                      .map(
+                        (item) =>
+                          `${item.quantity} × ${item.productNameSnapshot}`,
+                      )
+                      .join(", ")}
+                  </p>
+                </div>
+                <Status status={reservation.status} />
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="flex gap-2">
+                  <CalendarDays className="mt-0.5 size-4 text-primary" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">
+                      {t("list.rentalPeriod")}
+                    </p>
+                    <p className="text-sm text-foreground">
+                      {formatDateTime(reservation.startAt)} —{" "}
+                      {formatDateTime(reservation.endAt)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <CreditCard className="mt-0.5 size-4 text-primary" />
+                  <div>
+                    <p className="text-xs text-muted-foreground">
+                      {t("list.total")}
+                    </p>
+                    <p className="text-sm font-semibold text-foreground">
+                      ETB {reservation.pricing.subtotal.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {reservation.status === "pending_payment" && (
+                <div className="flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-sm text-muted-foreground">
+                    {t("list.paymentDue")}
+                  </p>
+                  <Button
+                    size="sm"
+                    disabled={payment.isPending}
+                    onClick={() =>
+                      payment.mutate(reservation.id, {
+                        onSuccess: () =>
+                          toast.success(t("list.paymentSuccess")),
+                        onError: (error) => toast.error(getErrorMessage(error)),
+                      })
+                    }
+                  >
+                    {t("list.payment")}
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </>
+  );
 }
 
 function OperationsReservations() {
-  const { t } = useTranslation('reservation')
-  const reservations = useOperationsReservations(true)
-  const updateStatus = useUpdateReservationStatus()
-  const [search, setSearch] = useState('')
-  const [status, setStatus] = useState<Reservation['status'] | ''>('')
-  const filtered = useMemo(() => reservations.data?.filter((reservation) => { const needle = search.toLocaleLowerCase(); const haystack = [reservation.reservationNumber, reservation.customer?.name, reservation.customer?.email, ...reservation.items.map((item) => item.productNameSnapshot), ...reservation.assignedUnits.map((unit) => unit.assetTag)].filter(Boolean).join(' ').toLocaleLowerCase(); return (!needle || haystack.includes(needle)) && (!status || reservation.status === status) }) ?? [], [reservations.data, search, status])
-  return <>{reservations.isPending && <p className="text-sm text-muted-foreground">{t('operations.loading')}</p>}{reservations.data && <div className="grid gap-3 rounded-xl border border-border bg-card p-4 sm:grid-cols-[minmax(0,1fr)_12rem]"><input className="h-11 rounded-lg border border-input bg-card px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search customer, equipment, unit, or booking" /><select className="h-11 rounded-lg border border-input bg-card px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50" value={status} onChange={(event) => setStatus(event.target.value as Reservation['status'] | '')}><option value="">All statuses</option>{['pending_payment', 'confirmed', 'checked_out', 'completed', 'cancelled', 'expired'].map((item) => <option key={item} value={item}>{t(`list.status.${item as Reservation['status']}`)}</option>)}</select></div>}{reservations.data?.length === 0 && <p className="rounded-xl border border-dashed border-border p-8 text-sm text-muted-foreground">{t('operations.empty')}</p>}<div className="space-y-4">{filtered.map((reservation) => <Card key={reservation.id}><CardContent className="grid gap-5 pt-4 xl:grid-cols-[minmax(12rem,1fr)_minmax(12rem,1fr)_minmax(16rem,1fr)_auto]"><div className="flex gap-3"><CircleUserRound className="mt-0.5 size-5 text-primary" /><div><p className="text-xs text-muted-foreground">{t('operations.customer')}</p><p className="font-medium text-foreground">{reservation.customer?.name ?? '—'}</p><p className="text-sm text-muted-foreground">{reservation.customer?.email ?? '—'}</p></div></div><div><p className="text-xs text-muted-foreground">{t('operations.booking')}</p><p className="font-medium text-foreground">{reservation.reservationNumber}</p><div className="mt-2"><Status status={reservation.status} /></div></div><div><p className="text-xs text-muted-foreground">{t('operations.equipment')}</p><p className="font-medium text-foreground">{reservation.items.map((item) => `${item.quantity} × ${item.productNameSnapshot}`).join(', ')}</p><p className="mt-1 text-sm text-muted-foreground">{formatDateTime(reservation.startAt)} — {formatDateTime(reservation.endAt)}</p><p className="mt-1 text-sm font-medium text-foreground">ETB {reservation.pricing.paidTotal.toLocaleString()}</p>{reservation.assignedUnits.length > 0 && <p className="mt-2 text-xs text-muted-foreground">{t('operations.assignedUnits')}: {reservation.assignedUnits.map((unit) => unit.assetTag).join(', ')}</p>}</div><div className="flex flex-wrap items-start gap-2">{reservation.status === 'confirmed' && <Button size="sm" icon={<PackageCheck />} disabled={updateStatus.isPending} onClick={() => updateStatus.mutate({ id: reservation.id, status: 'checked_out' }, { onSuccess: () => toast.success(t('operations.updated')), onError: (error) => toast.error(getErrorMessage(error)) })}>{t('operations.checkOut')}</Button>}{reservation.status === 'checked_out' && <><Button size="sm" icon={<PackageCheck />} disabled={updateStatus.isPending} onClick={() => updateStatus.mutate({ id: reservation.id, status: 'completed', returnCondition: 'good' }, { onSuccess: () => toast.success(t('operations.updated')), onError: (error) => toast.error(getErrorMessage(error)) })}>{t('operations.returnGood')}</Button><Button size="sm" variant="outline" disabled={updateStatus.isPending} onClick={() => updateStatus.mutate({ id: reservation.id, status: 'completed', returnCondition: 'damaged' }, { onSuccess: () => toast.success(t('operations.updated')), onError: (error) => toast.error(getErrorMessage(error)) })}>{t('operations.returnDamaged')}</Button></>}{['pending_payment', 'confirmed'].includes(reservation.status) && <Button size="sm" variant="outline" disabled={updateStatus.isPending} onClick={() => updateStatus.mutate({ id: reservation.id, status: 'cancelled' }, { onSuccess: () => toast.success(t('operations.updated')), onError: (error) => toast.error(getErrorMessage(error)) })}>{t('operations.cancel')}</Button>}</div></CardContent></Card>)}</div></>
+  const { t } = useTranslation("reservation");
+  const reservations = useOperationsReservations(true);
+  const updateStatus = useUpdateReservationStatus();
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState<Reservation["status"] | "">("");
+  const filtered = useMemo(
+    () =>
+      reservations.data?.filter((reservation) => {
+        const needle = search.toLocaleLowerCase();
+        const haystack = [
+          reservation.reservationNumber,
+          reservation.customer?.name,
+          reservation.customer?.email,
+          ...reservation.items.map((item) => item.productNameSnapshot),
+          ...reservation.assignedUnits.map((unit) => unit.assetTag),
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLocaleLowerCase();
+        return (
+          (!needle || haystack.includes(needle)) &&
+          (!status || reservation.status === status)
+        );
+      }) ?? [],
+    [reservations.data, search, status],
+  );
+  return (
+    <>
+      {reservations.isPending && (
+        <p className="text-sm text-muted-foreground">
+          {t("operations.loading")}
+        </p>
+      )}
+      {reservations.data && (
+        <div className="grid gap-3 rounded-xl border border-border bg-card p-4 sm:grid-cols-[minmax(0,1fr)_12rem]">
+          <input
+            className="h-11 rounded-lg border border-input bg-card px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search customer, equipment, unit, or booking"
+          />
+          <select
+            className="h-11 rounded-lg border border-input bg-card px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+            value={status}
+            onChange={(event) =>
+              setStatus(event.target.value as Reservation["status"] | "")
+            }
+          >
+            <option value="">All statuses</option>
+            {[
+              "pending_payment",
+              "confirmed",
+              "checked_out",
+              "completed",
+              "cancelled",
+              "expired",
+            ].map((item) => (
+              <option key={item} value={item}>
+                {t(`list.status.${item as Reservation["status"]}`)}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+      {reservations.data?.length === 0 && (
+        <p className="rounded-xl border border-dashed border-border p-8 text-sm text-muted-foreground">
+          {t("operations.empty")}
+        </p>
+      )}
+      <div className="space-y-4">
+        {filtered.map((reservation) => (
+          <Card key={reservation.id}>
+            <CardContent className="grid gap-5 pt-4 xl:grid-cols-[minmax(12rem,1fr)_minmax(12rem,1fr)_minmax(16rem,1fr)_auto]">
+              <div className="flex gap-3">
+                <CircleUserRound className="mt-0.5 size-5 text-primary" />
+                <div>
+                  <p className="text-xs text-muted-foreground">
+                    {t("operations.customer")}
+                  </p>
+                  <p className="font-medium text-foreground">
+                    {reservation.customer?.name ?? "—"}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {reservation.customer?.email ?? "—"}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">
+                  {t("operations.booking")}
+                </p>
+                <p className="font-medium text-foreground">
+                  {reservation.reservationNumber}
+                </p>
+                <div className="mt-2">
+                  <Status status={reservation.status} />
+                </div>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">
+                  {t("operations.equipment")}
+                </p>
+                <p className="font-medium text-foreground">
+                  {reservation.items
+                    .map(
+                      (item) =>
+                        `${item.quantity} × ${item.productNameSnapshot}`,
+                    )
+                    .join(", ")}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {formatDateTime(reservation.startAt)} —{" "}
+                  {formatDateTime(reservation.endAt)}
+                </p>
+                <p className="mt-1 text-sm font-medium text-foreground">
+                  ETB {reservation.pricing.paidTotal.toLocaleString()}
+                </p>
+                {reservation.assignedUnits.length > 0 && (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {t("operations.assignedUnits")}:{" "}
+                    {reservation.assignedUnits
+                      .map((unit) => unit.assetTag)
+                      .join(", ")}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-wrap items-start gap-2">
+                {reservation.status === "confirmed" && (
+                  <Button
+                    size="sm"
+                    icon={<PackageCheck />}
+                    disabled={updateStatus.isPending}
+                    onClick={() =>
+                      updateStatus.mutate(
+                        { id: reservation.id, status: "checked_out" },
+                        {
+                          onSuccess: () =>
+                            toast.success(t("operations.updated")),
+                          onError: (error) =>
+                            toast.error(getErrorMessage(error)),
+                        },
+                      )
+                    }
+                  >
+                    {t("operations.checkOut")}
+                  </Button>
+                )}
+                {reservation.status === "checked_out" && (
+                  <>
+                    <Button
+                      size="sm"
+                      icon={<PackageCheck />}
+                      disabled={updateStatus.isPending}
+                      onClick={() =>
+                        updateStatus.mutate(
+                          {
+                            id: reservation.id,
+                            status: "completed",
+                            returnCondition: "good",
+                          },
+                          {
+                            onSuccess: () =>
+                              toast.success(t("operations.updated")),
+                            onError: (error) =>
+                              toast.error(getErrorMessage(error)),
+                          },
+                        )
+                      }
+                    >
+                      {t("operations.returnGood")}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={updateStatus.isPending}
+                      onClick={() =>
+                        updateStatus.mutate(
+                          {
+                            id: reservation.id,
+                            status: "completed",
+                            returnCondition: "damaged",
+                          },
+                          {
+                            onSuccess: () =>
+                              toast.success(t("operations.updated")),
+                            onError: (error) =>
+                              toast.error(getErrorMessage(error)),
+                          },
+                        )
+                      }
+                    >
+                      {t("operations.returnDamaged")}
+                    </Button>
+                  </>
+                )}
+                {["pending_payment", "confirmed"].includes(
+                  reservation.status,
+                ) && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={updateStatus.isPending}
+                    onClick={() =>
+                      updateStatus.mutate(
+                        { id: reservation.id, status: "cancelled" },
+                        {
+                          onSuccess: () =>
+                            toast.success(t("operations.updated")),
+                          onError: (error) =>
+                            toast.error(getErrorMessage(error)),
+                        },
+                      )
+                    }
+                  >
+                    {t("operations.cancel")}
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </>
+  );
 }
 
 export default function ReservationsPage() {
-  const { t } = useTranslation('reservation')
-  const { data: user } = useQuery(sessionQueryOptions)
-  const operations = user?.role === 'staff' || user?.role === 'admin'
-  return <PageContainer width="wide" className="space-y-8 py-8"><PageHeader title={operations ? t('operations.title') : t('list.title')} description={operations ? t('operations.description') : t('list.description')} />{operations ? <OperationsReservations /> : <CustomerReservations />}</PageContainer>
+  const { t } = useTranslation("reservation");
+  const { data: user } = useQuery(sessionQueryOptions);
+  const operations = user?.role === "staff" || user?.role === "admin";
+  return (
+    <PageContainer width="wide" className="space-y-8 py-8">
+      <PageHeader
+        title={operations ? t("operations.title") : t("list.title")}
+        description={
+          operations ? t("operations.description") : t("list.description")
+        }
+      />
+      {operations ? <OperationsReservations /> : <CustomerReservations />}
+    </PageContainer>
+  );
 }

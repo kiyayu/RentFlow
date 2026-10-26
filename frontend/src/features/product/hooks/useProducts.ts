@@ -15,34 +15,27 @@ export const useProductList = (query: ProductQuery = {}) =>
     queryFn: () => productApi.list(query),
   })
 
-export const useCreateProduct = () => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (input: CreateProductInput) => productApi.create(input),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: productKeys.all }),
-  })
-}
-
 export const useManagedProductList = (query: ProductQuery = {}) =>
   useQuery({
     queryKey: productKeys.managed(query),
     queryFn: () => productApi.listManaged(query),
   })
 
-export const useUpdateProduct = () => {
+export const useProduct = (slug: string) =>
+  useQuery({
+    queryKey: productKeys.detail(slug),
+    queryFn: () => productApi.getBySlug(slug),
+    enabled: Boolean(slug),
+  })
+
+const useProductMutation = <T,>(mutationFn: (variables: T) => Promise<unknown>) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, input }: { id: string; input: UpdateProductInput }) => productApi.update(id, input),
+    mutationFn,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: productKeys.all }),
   })
 }
 
-export const useArchiveProduct = () => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: productApi.archive,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: productKeys.all }),
-  })
-}
-
-export const useProduct = (slug: string) => useQuery({ queryKey: productKeys.detail(slug), queryFn: () => productApi.getBySlug(slug), enabled: !!slug })
+export const useCreateProduct = () => useProductMutation((input: CreateProductInput) => productApi.create(input))
+export const useUpdateProduct = () => useProductMutation(({ id, input }: { id: string; input: UpdateProductInput }) => productApi.update(id, input))
+export const useArchiveProduct = () => useProductMutation(productApi.archive)
