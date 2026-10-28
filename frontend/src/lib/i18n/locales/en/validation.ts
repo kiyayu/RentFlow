@@ -1,6 +1,5 @@
 //src/lib/i18n/locales/en/validation.ts
-// Zod schemas store keys like 'validation:emailRequired'. The form translates them for display.
-export const validation = {
+ export const validation = {
   emailRequired: 'Email is required',
   emailInvalid: 'Enter a valid email',
   passwordRequired: 'Password is required',

@@ -2,7 +2,7 @@
 import '@testing-library/jest-dom/vitest'
 import { vi } from 'vitest'
 
-// lib/env.ts validates at import time, so these must run BEFORE importing i18n.
+ 
 vi.stubEnv('VITE_API_BASE_URL', 'http://localhost:5000/api/')
 vi.stubEnv('VITE_DEFAULT_LANG', 'en')
 

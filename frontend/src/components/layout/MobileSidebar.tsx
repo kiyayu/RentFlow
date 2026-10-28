@@ -10,7 +10,7 @@ export function MobileSidebar({ config = appConfig }: { config?: WorkspaceConfig
   const open = useLayoutStore((s) => s.sidebarOpen)
   const close = useLayoutStore((s) => s.closeSidebar)
 
-  // if the window grows to desktop while the drawer is open, close it
+ 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1024px)')
     const onChange = (e: MediaQueryListEvent) => {

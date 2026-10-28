@@ -1,3 +1,59 @@
 export const inventory = {
-  title: 'Inventory', description: 'Track every physical unit, its condition, custody, and operational status.', add: 'Add unit', loading: 'Loading inventory...', loadFailed: 'Inventory could not be loaded.', empty: 'No physical units have been added yet.', noSerial: 'No serial number', edit: 'Edit', retire: 'Retire', markReady: 'Mark ready', ready: 'Unit is ready for rental', created: 'Unit added', updated: 'Unit updated', retired: 'Unit retired', createTitle: 'Add physical unit', createDescription: 'Assign a uniquely tracked unit to an active equipment offer.', editTitle: 'Edit physical unit', editDescription: 'Keep operational and custody details current.', retireTitle: 'Retire unit', retireDescription: 'Retire {{tag}}? Retired units cannot be allocated to new reservations.', pagination: { page: 'Page {{current}} of {{total}}', previous: 'Previous', next: 'Next' }, labels: { condition: 'Condition', operational: 'Operations', custody: 'Custody' }, form: { equipment: 'Equipment', selectEquipment: 'Select equipment', assetTag: 'Asset tag', serialNumber: 'Serial number', condition: 'Condition', operationalStatus: 'Operational status', custodyStatus: 'Custody status', notes: 'Notes', create: 'Add unit', save: 'Save changes', saving: 'Saving...' }, condition: { new: 'New', good: 'Good', fair: 'Fair', damaged: 'Damaged' }, operational: { available: 'Available', maintenance: 'Maintenance', retired: 'Retired' }, custody: { in_stock: 'In stock', checked_out: 'Checked out', inspection_required: 'Inspection required' },
-} as const
+  title: "Inventory",
+  description:
+    "Track every physical unit, its condition, custody, and operational status.",
+  add: "Add unit",
+  loading: "Loading inventory...",
+  loadFailed: "Inventory could not be loaded.",
+  empty: "No physical units have been added yet.",
+  noSerial: "No serial number",
+  edit: "Edit",
+  retire: "Retire",
+  markReady: "Mark ready",
+  ready: "Unit is ready for rental",
+  created: "Unit added",
+  updated: "Unit updated",
+  retired: "Unit retired",
+  createTitle: "Add physical unit",
+  createDescription:
+    "Assign a uniquely tracked unit to an active equipment offer.",
+  editTitle: "Edit physical unit",
+  editDescription: "Keep operational and custody details current.",
+  retireTitle: "Retire unit",
+  retireDescription:
+    "Retire {{tag}}? Retired units cannot be allocated to new reservations.",
+  pagination: {
+    page: "Page {{current}} of {{total}}",
+    previous: "Previous",
+    next: "Next",
+  },
+  labels: {
+    condition: "Condition",
+    operational: "Operations",
+    custody: "Custody",
+  },
+  form: {
+    equipment: "Equipment",
+    selectEquipment: "Select equipment",
+    assetTag: "Asset tag",
+    serialNumber: "Serial number",
+    condition: "Condition",
+    operationalStatus: "Operational status",
+    custodyStatus: "Custody status",
+    notes: "Notes",
+    create: "Add unit",
+    save: "Save changes",
+    saving: "Saving...",
+  },
+  condition: { new: "New", good: "Good", fair: "Fair", damaged: "Damaged" },
+  operational: {
+    available: "Available",
+    maintenance: "Maintenance",
+    retired: "Retired",
+  },
+  custody: {
+    in_stock: "In stock",
+    checked_out: "Checked out",
+    inspection_required: "Inspection required",
+  },
+} as const;

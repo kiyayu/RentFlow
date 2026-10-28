@@ -9,7 +9,7 @@ export function ErrorPage({
   homeLabel,
 }: {
   homePath?: string
-  homeLabel?: string // override only when a caller needs different wording
+  homeLabel?: string 
 }) {
   const { t } = useTranslation(['errors', 'common'])
   const error = useRouteError()

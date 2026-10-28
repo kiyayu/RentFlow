@@ -23,7 +23,7 @@ export function Topbar({
 }: {
   user?: ShellUser
   onLogout?: () => void
-  notifications?: React.ReactNode // slot: the shell never imports a feature
+  notifications?: React.ReactNode  
 }) {
   const { t } = useTranslation('layout')
 

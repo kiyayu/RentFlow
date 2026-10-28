@@ -10,7 +10,7 @@ type Props = {
   title: string
   description: string
   confirmLabel: string
-  confirmText?: string // if set, the user must type it to enable the button
+  confirmText?: string  
   isPending?: boolean
   error?: string
   onConfirm: () => void

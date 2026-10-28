@@ -56,7 +56,7 @@ const router = createBrowserRouter([
           })),
         children: PrivateRoute,
       },
-      // public unknown URLs only; /app/* unknowns are caught inside PrivateRoute
+     
       {
         path: '*',
         loader: () => {

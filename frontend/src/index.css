@@ -56,10 +56,10 @@
 }
 
 :root {
-    /* PAGE / SURFACE */
-    --background: oklch(0.985 0.001 106.423);         /* stone-50 */
-    --foreground: oklch(0.216 0.006 56.043);          /* stone-900 */
-    --card: oklch(1 0 0);                             /* white */
+   
+    --background: oklch(0.985 0.001 106.423);          
+    --foreground: oklch(0.216 0.006 56.043);           
+    --card: oklch(1 0 0);                               
     --card-foreground: oklch(0.216 0.006 56.043);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.216 0.006 56.043);
@@ -70,23 +70,23 @@
     --ring: oklch(0.696 0.17 155.85);
 
     /* NEUTRALS */
-    --secondary: oklch(0.97 0.001 106.424);           /* stone-100 */
+    --secondary: oklch(0.97 0.001 106.424);            
     --secondary-foreground: oklch(0.216 0.006 56.043);
-    --muted: oklch(0.97 0.001 106.424);               /* stone-100: skeleton, hover */
-    --muted-foreground: oklch(0.553 0.013 58.071);    /* stone-500 */
+    --muted: oklch(0.97 0.001 106.424);                
+    --muted-foreground: oklch(0.553 0.013 58.071);   
     --accent: oklch(0.97 0.001 106.424);
     --accent-foreground: oklch(0.216 0.006 56.043);
-    --border: oklch(0.923 0.003 48.717);              /* stone-200 */
+    --border: oklch(0.923 0.003 48.717);              
     --input: oklch(0.923 0.003 48.717);
 
     /* STATUS */
-    --destructive: oklch(0.577 0.245 27.325);         /* red-600 */
+    --destructive: oklch(0.577 0.245 27.325);          
     --destructive-foreground: oklch(1 0 0);
-    --success: oklch(0.627 0.194 149.214);            /* green-600 */
+    --success: oklch(0.627 0.194 149.214);             
     --success-foreground: oklch(1 0 0);
-    --warning: oklch(0.769 0.188 70.08);              /* amber-500 */
-    --warning-foreground: oklch(0.216 0.006 56.043);  /* dark text on light amber */
-    --info: oklch(0.609 0.126 221.723);               /* cyan-600 */
+    --warning: oklch(0.769 0.188 70.08);              
+    --warning-foreground: oklch(0.216 0.006 56.043);   
+    --info: oklch(0.609 0.126 221.723);                
     --info-foreground: oklch(1 0 0);
 
     --chart-1: oklch(0.432 0.145 155.45);
@@ -107,7 +107,7 @@
 }
 
 .dark {
-    --background: oklch(0.147 0.004 49.25);           /* stone-950 */
+    --background: oklch(0.147 0.004 49.25);           
     --foreground: oklch(0.985 0.001 106.423);
     --card: oklch(0.216 0.006 56.043);
     --card-foreground: oklch(0.985 0.001 106.423);

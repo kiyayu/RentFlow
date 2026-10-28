@@ -7,7 +7,7 @@ export function formatBytes(bytes: number): string {
 
 export type FileRule = { types: string[]; maxBytes: number }
 
-// Early feedback only. The server re-checks everything.
+ 
 export function validateFile(file: File, rule: FileRule): string | null {
   if (!rule.types.includes(file.type)) return 'This file type is not allowed.'
   if (file.size > rule.maxBytes) return `File is too large. Maximum is ${formatBytes(rule.maxBytes)}.`

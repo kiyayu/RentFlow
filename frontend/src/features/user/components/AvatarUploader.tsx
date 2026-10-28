@@ -10,7 +10,7 @@ import { sessionQueryOptions } from '@/features/auth'
 import { useUpload } from '@/features/uploads'
 import { useRemoveAvatar, useSetAvatar } from '../hooks/useUserMutations'
 
-// Mirrors the backend rule for "avatar". The server enforces the real limits.
+ 
 const AVATAR_RULE = { types: ['image/png', 'image/jpeg', 'image/webp'], maxBytes: 2 * 1024 * 1024 }
 
 export function AvatarUploader() {

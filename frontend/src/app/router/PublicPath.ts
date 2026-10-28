@@ -44,7 +44,7 @@ export function createAuthGuard(queryClient: QueryClient) {
       const user = await queryClient.ensureQueryData(sessionQueryOptions)
       if (user) return redirect(redirectTarget(request))
     } catch {
-      // server unreachable → treat as logged out, show the page
+      // server unreachable logged out, show the page
     }
 
     return null

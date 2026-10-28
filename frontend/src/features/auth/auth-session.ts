@@ -13,7 +13,7 @@ export const authKeys = {
 const isUnauthorized = (error: unknown) =>
   error instanceof AxiosError && error.response?.status === 401
 
-// Returns the user, null (nobody logged in), or THROWS (server/network problem).
+ 
 async function fetchSession(): Promise<SessionUser | null> {
   try {
     return await authApi.getProfile()

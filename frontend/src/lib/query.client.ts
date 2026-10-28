@@ -15,4 +15,4 @@ export const queryClient = new QueryClient({
 })
 
  
-//queryClient.setQueryData(['session'], {name:'jaso', email:'janzo@gmail.com', role:'customer', emailVerified:true,})
+ 
