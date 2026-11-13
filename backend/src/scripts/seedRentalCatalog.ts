@@ -229,7 +229,10 @@ async function seed() {
           createdBy: owner._id,
         });
         productsCreated += 1;
-      } else if (product.images.length === 0) {
+      } else if (
+        product.images.length === 0 ||
+        product.images.some((url) => url.includes('$%7Bid%7D') || url.includes('${id}'))
+      ) {
         product.images = [imageUrl];
         await product.save();
       }
