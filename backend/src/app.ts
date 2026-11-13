@@ -19,7 +19,13 @@ import reservationRoutes from './modules/reservation/reservation.routes.js'
 
 const app = express()
 app.set('trust proxy', env.trustProxy)
-app.use(helmet())
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      imgSrc: ["'self'", 'data:', 'blob:', 'https://images.unsplash.com', 'https://res.cloudinary.com'],
+    },
+  },
+}))
 app.use(cors({
   origin:      env.clientUrl,
   credentials: true,
