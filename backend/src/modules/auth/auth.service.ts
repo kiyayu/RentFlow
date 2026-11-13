@@ -1,5 +1,6 @@
 // src/modules/auth/service.ts
 import { ApiError } from "../../common/errors/apiErrors.js"
+import { env } from '../../config/env.js'
 import { signAccessToken } from "../../common/utils/jwt.js"
 import { GoogleUser } from "../../common/utils/oauth.js"
 import { comparePassword, hashPassword } from "../../common/utils/password.js"
