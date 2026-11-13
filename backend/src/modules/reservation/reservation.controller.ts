@@ -1,4 +1,3 @@
-//src/modules/reservation/reservation.controller.ts
 import type { Request, Response } from 'express'
 
 import { sendSuccess } from '../../common/handlers/responseHandler.js'

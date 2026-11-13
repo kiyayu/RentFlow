@@ -1,4 +1,3 @@
-//src/modules/unit/unit.service.ts
 import mongoose, { Types, type ClientSession } from 'mongoose'
 
 import { ApiError } from '../../common/errors/apiErrors.js'

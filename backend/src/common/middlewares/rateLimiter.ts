@@ -65,6 +65,12 @@ export const loginRateLimiter = createRateLimiter({
   identifier: 'login',
 })
 
+export const demoLoginRateLimiter = createRateLimiter({
+  windowSeconds: 5 * 60,
+  maxRequests: 20,
+  identifier: 'demo-login',
+})
+
 export const registerRateLimiter = createRateLimiter({
   windowSeconds: 60 * 60,
   maxRequests: 5,

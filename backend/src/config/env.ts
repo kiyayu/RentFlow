@@ -29,6 +29,11 @@ const envSchema = z
       .enum(['development', 'production', 'test'])
       .default('development'),
 
+    DEMO_MODE: z
+      .enum(['true', 'false'])
+      .default('false')
+      .transform((value) => value === 'true'),
+
     MONGO_URL: z
       .string()
       .url()
@@ -146,6 +151,7 @@ if (!parsed.success) {
 export const env: EnvTypes = {
   port: parsed.data.PORT,
   nodeEnv: parsed.data.NODE_ENV,
+  demoMode: parsed.data.DEMO_MODE,
 
   mongoUri: parsed.data.MONGO_URL,
   redisUri: parsed.data.REDIS_URL,

@@ -1,4 +1,3 @@
-//src/modules/proudct/product.routes.ts
 import express from 'express'
 
 import { asyncHandler } from '../../common/middlewares/asyncHandler.js'

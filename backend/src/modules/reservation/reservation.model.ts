@@ -1,4 +1,3 @@
-//src/modules/reservation/reservation.module.ts
 import mongoose, {
   Schema,
   type Document,

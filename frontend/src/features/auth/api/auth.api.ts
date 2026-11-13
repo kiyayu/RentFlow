@@ -25,6 +25,11 @@ export const authApi = {
     return response.data.data
   },
 
+  demoLogin: async (): Promise<SessionUser> => {
+    const response = await api.post<{ data: SessionUser }>('/auth/demo-login')
+    return response.data.data
+  },
+
   verifyOtp: async (payload: { email: string; otp: string }): Promise<void> => {
     await api.post('/auth/verify-otp', payload)
   },

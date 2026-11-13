@@ -1,4 +1,3 @@
-//src/modules/unit/unit.constants.ts
 export const UNIT_CONDITIONS = ['new', 'good', 'fair', 'damaged'] as const
 
 export const UNIT_OPERATIONAL_STATUSES = ['available', 'maintenance', 'retired'] as const

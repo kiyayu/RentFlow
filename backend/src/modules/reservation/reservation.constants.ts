@@ -1,4 +1,3 @@
-//src/modules/reservtion/reservation.constants.ts
 export const RESERVATION_STATUSES = [
   'pending_payment',
   'confirmed',

@@ -5,6 +5,7 @@ import { AuthHeading } from '../components/AuthHeading'
 import { AuthSwitch } from '../components/AuthSwitch'
 import { GoogleButton } from '../components/GoogleButton'
 import { RegisterForm } from '../components/RegisterForm'
+import { DemoLoginButton } from '../components/DemoLoginButton'
 
 export default function RegisterPage() {
   const { t } = useTranslation('auth')
@@ -12,6 +13,7 @@ export default function RegisterPage() {
     <>
       <AuthHeading title={t('register.title')} description={t('register.description')} />
       <RegisterForm />
+      <DemoLoginButton />
       <GoogleButton />
       <AuthSwitch text={t('register.hasAccount')} label={t('register.logIn')} to={paths.login} />
     </>

@@ -100,6 +100,24 @@ await notificationService.notify({
     return { user: mapResponse(user), accessToken, refreshToken }
   },
 
+  demoLogin: async (
+    metadata: DeviceMetadata,
+  ): Promise<{ user: UserResponseDTO; accessToken: string; refreshToken: string }> => {
+    if (!env.demoMode) throw ApiError.notFound('Demo access is not available')
+
+    const user = await User.findOne({
+      email: 'rentflow@gmail.com',
+      role: 'customer',
+      emailVerified: true,
+      isActive: true,
+    })
+
+    if (!user) throw ApiError.notFound('Demo account is not available')
+
+    const { accessToken, refreshToken } = await createSession(user, metadata)
+    return { user: mapResponse(user), accessToken, refreshToken }
+  },
+
   refreshToken: async (
     incomingRawToken: string
   ): Promise<{ accessToken: string; refreshToken?: string }> => {

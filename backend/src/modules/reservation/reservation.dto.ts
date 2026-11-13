@@ -1,4 +1,3 @@
-//src/modules/reservation/reservation.dto.ts
 import { z } from 'zod'
 
 import {

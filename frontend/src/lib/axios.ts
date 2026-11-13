@@ -33,6 +33,7 @@ const SKIP_REFRESH = [
   "user/profile",
   "auth/refresh-token",
   "auth/login",
+  "auth/demo-login",
   "auth/register",
   "auth/verify-otp",
   "auth/resend-otp",

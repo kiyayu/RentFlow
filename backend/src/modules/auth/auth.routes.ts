@@ -6,6 +6,7 @@ import { authController } from './auth.controller.js'
 import { authenticate } from '../../common/middlewares/authMiddleware.js'
 import {
   loginRateLimiter,
+  demoLoginRateLimiter,
   registerRateLimiter,
   otpSendRateLimiter,
   otpVerifyRateLimiter,
@@ -26,6 +27,7 @@ const router = express.Router()
 // ── Public routes ────────────────────────────────────────────────
 router.post('/register', registerRateLimiter, validation(userSchema), asyncHandler(authController.authRegister))
 router.post('/login', loginRateLimiter, validation(loginSchema), asyncHandler(authController.authLogin))
+router.post('/demo-login', demoLoginRateLimiter, asyncHandler(authController.authDemoLogin))
 
 router.get('/google', asyncHandler(authController.authGoogleStart))
 router.get('/google/callback', asyncHandler(authController.authGoogleCallback))

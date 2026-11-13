@@ -10,3 +10,11 @@ export const useLogin = () => {
     onSuccess: (user) => queryClient.setQueryData(authKeys.session, user),
   })
 }
+
+export const useDemoLogin = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: authApi.demoLogin,
+    onSuccess: (user) => queryClient.setQueryData(authKeys.session, user),
+  })
+}

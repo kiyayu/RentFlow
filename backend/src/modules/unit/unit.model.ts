@@ -1,4 +1,3 @@
-//src/modules/unit/unit.model.ts
 import mongoose, {
   Schema,
   type Document,

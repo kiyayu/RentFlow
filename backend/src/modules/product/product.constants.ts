@@ -1,4 +1,3 @@
-//src/modules/product/product.constants.ts
 export const PRODUCT_STATUSES = ['active', 'archived'] as const
 
 export const BILLING_UNITS = ['day'] as const

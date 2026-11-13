@@ -3,6 +3,7 @@
  export interface EnvTypes {
     port:number
     nodeEnv:string
+    demoMode:boolean
     mongoUri:string
     redisUri:string
     jwtAccessSecret:string

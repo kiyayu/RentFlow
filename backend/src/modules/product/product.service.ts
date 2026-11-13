@@ -1,4 +1,3 @@
-//src/modules/product/product.service.ts
 import { ApiError } from '../../common/errors/apiErrors.js'
 
 import {

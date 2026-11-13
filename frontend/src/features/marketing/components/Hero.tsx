@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { paths } from '@/config/paths'
 import { useTranslation } from '@/lib/i18n'
+import { DemoLoginButton } from '@/features/auth'
 
 export function Hero() {
   const { t } = useTranslation('marketing')
@@ -19,6 +20,9 @@ export function Hero() {
         <Button asChild size="lg" variant="outline">
           <Link to={paths.login}>{t('hero.secondary')}</Link>
         </Button>
+      </div>
+      <div className="mx-auto max-w-xs">
+        <DemoLoginButton />
       </div>
     </section>
   )

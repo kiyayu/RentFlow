@@ -7,6 +7,7 @@ import { AuthSwitch } from '../components/AuthSwitch'
 import { FormError } from '../components/FormError'
 import { GoogleButton } from '../components/GoogleButton'
 import { LoginForm } from '../components/LoginForm'
+import { DemoLoginButton } from '../components/DemoLoginButton'
 
 export default function LoginPage() {
   const { t } = useTranslation('auth')
@@ -18,6 +19,7 @@ export default function LoginPage() {
       <AuthHeading title={t('login.title')} description={t('login.description')} />
       <FormError message={googleFailed ? t('login.googleFailed') : undefined} />
       <LoginForm />
+      <DemoLoginButton />
       <GoogleButton />
       <AuthSwitch text={t('login.noAccount')} label={t('login.signUp')} to={paths.register} />
     </>

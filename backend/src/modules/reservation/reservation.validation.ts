@@ -1,4 +1,3 @@
-//src/modules/reservation/reservatin.validation.ts
 import { z } from 'zod'
 
 import {

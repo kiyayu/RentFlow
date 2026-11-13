@@ -12,6 +12,10 @@ export const auth = {
     noAccount: 'መለያ የለዎትም?',
     signUp: 'ተመዝገብ',
   },
+  demo: {
+    start: 'የሙከራውን ይመልከቱ',
+    starting: 'ሙከራውን በመክፈት ላይ...',
+  },
   register: {
     title: 'መለያዎን ይፍጠሩ',
     description: 'አንድ ደቂቃ ብቻ ይወስዳል።',

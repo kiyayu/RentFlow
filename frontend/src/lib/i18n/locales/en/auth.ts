@@ -13,6 +13,10 @@ export const auth = {
     noAccount: 'No account yet?',
     signUp: 'Sign up',
   },
+  demo: {
+    start: 'Explore the demo',
+    starting: 'Opening demo...',
+  },
   register: {
     title: 'Create your account',
     description: 'It only takes a minute.',

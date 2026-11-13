@@ -47,6 +47,15 @@ export const authController = {
     return sendSuccess({ res, data: user, message: "Logged in successfully" })
   }),
 
+  authDemoLogin: asyncHandler(async (req: Request, res: Response) => {
+    const { user, accessToken, refreshToken } = await authService.demoLogin(buildMetadata(req))
+
+    setAccessTokenCookie(res, accessToken)
+    setRefreshTokenCookie(res, refreshToken)
+
+    return sendSuccess({ res, data: user, message: 'Demo session started' })
+  }),
+
 authGoogleCallback: asyncHandler(async (req: Request, res: Response) => {
   try {
     const { code, state } = req.query as { code: string; state: string }
