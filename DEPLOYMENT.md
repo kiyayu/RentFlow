@@ -12,7 +12,7 @@ The simplest portfolio setup is one Render Docker web service, MongoDB Atlas, an
    - Build context: `.`
    - Health check: `/health`
    - Port: `10000`
-4. Add the values from `.env.production.example` in Render’s environment settings. Set `CLIENT_URL` and `VITE_API_BASE_URL` to your generated `https://<service>.onrender.com` URL.
+4. Add the values from `.env.production.example` in Render's environment settings. Set `CLIENT_URL` and `VITE_API_BASE_URL` to your generated `https://<service>.onrender.com` URL.
 5. Deploy. Open `/health` first, then open the site.
 
 ## Seed the live demo
@@ -24,7 +24,7 @@ cd backend
 npm run seed:rental-catalog
 ```
 
-Set `DEMO_MODE=true` in Render, then redeploy. Visitors can use the one-click demo login as `rentflow@gmail.com`; no password needs to be shown on the site.
+Set `DEMO_MODE=true` in Render, then redeploy. Visitors can use the one-click demo login as `rentflow@gmail.com`. No password needs to be shown on the site.
 
 ## Docker Compose
 
